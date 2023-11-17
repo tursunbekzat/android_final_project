@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu"
+        android:icon="@drawable/menu"
+        android:title="menu"
+        android:orderInCategory="1"/>
+
+    <item
+        android:id="@+id/data"
+        android:icon="@drawable/data"
+        android:title="data"
+        android:orderInCategory="2"/>
+
+    <item
+        android:id="@+id/mainpage"
+        android:icon="@drawable/menubook"
+        android:title="Main Page"
+        android:orderInCategory="3"/>
+
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:title="Log out"
+        android:orderInCategory="4"/>
+
+
+</menu>

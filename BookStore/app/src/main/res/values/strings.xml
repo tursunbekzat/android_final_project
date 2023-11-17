@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BookStore</string>
+    <string name="button">Button</string>
+    <string name="to_my_book_store">To My Book Store</string>
+    <string name="sign_in">Sign in</string>
+    <string name="todo">TODO</string>
+    <string name="register">Register</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
