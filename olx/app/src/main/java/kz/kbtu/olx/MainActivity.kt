@@ -3,6 +3,7 @@ package kz.kbtu.olx
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import kz.kbtu.olx.UI.LoginOptionsActivity
 import kz.kbtu.olx.databinding.ActivityMainBinding
@@ -23,7 +24,11 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         if (firebaseAuth.currentUser == null){
+            Log.d("Test", "firebase is null")
             startLoginOptions()
+        }
+        else{
+            Log.d("Test", "firebase is not null ${firebaseAuth.currentUser}")
         }
 
         showHomeFragment()
@@ -35,16 +40,41 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_chats -> {
-                    showChatsFragment()
-                    true
+                    if (firebaseAuth.currentUser == null) {
+                        Utils.toast(this, "Login Required")
+                        startLoginOptions()
+
+                        false
+                    }
+                    else {
+                        showChatsFragment()
+                         true
+                    }
                 }
                 R.id.menu_my_ads -> {
-                    showMyAdsFragment()
-                    true
+                    if (firebaseAuth.currentUser == null) {
+                        Utils.toast(this, "Login Required")
+                        startLoginOptions()
+
+                        false
+                    }
+                    else {
+                        showMyAdsFragment()
+                        true
+                    }
                 }
                 R.id.menu_account -> {
-                    showAccountFragment()
-                    true
+                    if (firebaseAuth.currentUser == null) {
+                        Utils.toast(this, "Login Required")
+                        startLoginOptions()
+
+                        false
+                    }
+                    else {
+                        showAccountFragment()
+                        true
+                    }
+
                 }
                 else -> {
                     false
