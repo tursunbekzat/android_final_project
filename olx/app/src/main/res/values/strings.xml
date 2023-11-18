@@ -12,5 +12,12 @@
     <string name="create_a_new_account">Create a new Account</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="have_account_sign_in">Already have Account? <b>Login</b></string>
-<!--    <string name="default_web_client_id"></string>-->
+    <string name="logout">Logout</string>
+    <string name="phone_login">Phone Login</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="otp">OTP</string>
+    <string name="verify">Verify</string>
+    <string name="didn_t_recieve_otp_resend">Didn\'t Recieve OTP? <b>Resend</b></string>
+    <!--    <string name="default_web_client_id"></string>-->
 </resources>

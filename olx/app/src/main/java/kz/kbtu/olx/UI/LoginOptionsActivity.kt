@@ -18,6 +18,7 @@ import kz.kbtu.olx.MainActivity
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.auth.LoginEmailActivity
+import kz.kbtu.olx.auth.LoginPhoneActivity
 import kz.kbtu.olx.databinding.ActivityLoginOptionsBinding
 
 class LoginOptionsActivity : AppCompatActivity() {
@@ -55,6 +56,10 @@ class LoginOptionsActivity : AppCompatActivity() {
 
         binding.loginGoogleBtn.setOnClickListener {
             beginGoogleLogin()
+        }
+
+        binding.loginPhoneBtn.setOnClickListener {
+            startActivity(Intent(this, LoginPhoneActivity::class.java))
         }
     }
 
