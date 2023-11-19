@@ -58,6 +58,7 @@ dependencies {
 
     // Also add the dependency for the Google Play services library and specify its version
     implementation(libs.play.services.auth)
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("com.hbb20:ccp:2.7.0")
 }
