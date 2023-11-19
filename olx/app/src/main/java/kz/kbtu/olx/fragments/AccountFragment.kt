@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.MainActivity
 import kz.kbtu.olx.R
+import kz.kbtu.olx.UI.ChangePasswordActivity
 import kz.kbtu.olx.UI.ProfileEditActivity
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.FragmentAccountBinding
@@ -52,6 +53,10 @@ class AccountFragment : Fragment() {
 
         binding.editProfileCv.setOnClickListener {
             startActivity(Intent(mContext, ProfileEditActivity::class.java))
+        }
+
+        binding.changePasswordCv.setOnClickListener {
+            startActivity(Intent(mContext, ChangePasswordActivity::class.java))
         }
     }
 

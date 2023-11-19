@@ -33,5 +33,13 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="eidt_profile">Eidt Profile</string>
     <string name="update">Update</string>
+    <string name="forgot_password_recover">Forgot Password? <b>Recover</b></string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="submit">Submit</string>
+    <string name="change_password">Change Password</string>
+    <string name="to_change_your_password_u_must_verify_it_s_realy_u_by_entering_your_current_password_your_new_password_should_be_different_from_current_password">To change your password u must verify it\'s realy u by entering your current password. Your new password should be different from current password.</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="back_button">Back Button</string>
     <!--    <string name="default_web_client_id"></string>-->
 </resources>

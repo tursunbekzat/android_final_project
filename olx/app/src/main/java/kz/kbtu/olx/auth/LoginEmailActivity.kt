@@ -8,6 +8,7 @@ import android.util.Log
 import android.util.Patterns
 import com.google.firebase.auth.FirebaseAuth
 import kz.kbtu.olx.MainActivity
+import kz.kbtu.olx.UI.ForgotPasswordActivity
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityLoginEmailBinding
 
@@ -34,6 +35,10 @@ class LoginEmailActivity : AppCompatActivity() {
 
         binding.noAccountTv.setOnClickListener{
             startActivity(Intent(this, RegisterEmailActivity::class.java))
+        }
+
+        binding.forgotPasswordTv.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
 
         binding.loginBtn.setOnClickListener{

@@ -200,6 +200,26 @@
                     android:drawablePadding="10dp"
                     app:drawableEndCompat="@drawable/ic_next_white"
                     android:gravity="center_vertical"
+                    app:drawableStartCompat="@drawable/ic_person_gray" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/changePasswordCv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                app:contentPadding="10dp"
+                app:cardCornerRadius="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_password"
+                    android:drawablePadding="10dp"
+                    app:drawableEndCompat="@drawable/ic_next_white"
+                    android:gravity="center_vertical"
                     app:drawableStartCompat="@drawable/ic_edit" />
             </com.google.android.material.card.MaterialCardView>
 
