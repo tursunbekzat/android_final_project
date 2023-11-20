@@ -1,4 +1,4 @@
-package kz.kbtu.olx.UI
+package kz.kbtu.olx.ui.account
 
 import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity

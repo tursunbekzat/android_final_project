@@ -15,7 +15,6 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import com.google.firebase.database.FirebaseDatabase
 import kz.kbtu.olx.MainActivity
-import kz.kbtu.olx.UI.LoginOptionsActivity
 import kz.kbtu.olx.Utils
 
 import kz.kbtu.olx.databinding.ActivityLoginPhoneBinding

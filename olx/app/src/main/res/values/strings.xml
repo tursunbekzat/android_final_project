@@ -41,5 +41,7 @@
     <string name="new_password">New Password</string>
     <string name="current_password">Current Password</string>
     <string name="back_button">Back Button</string>
+    <string name="verify_account">Verify Account</string>
+    <string name="delete_account">Delete Account</string>
     <!--    <string name="default_web_client_id"></string>-->
 </resources>

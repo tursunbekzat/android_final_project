@@ -1,5 +1,7 @@
 package kz.kbtu.olx.fragments
 
+
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,20 +18,26 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.MainActivity
 import kz.kbtu.olx.R
-import kz.kbtu.olx.UI.ChangePasswordActivity
-import kz.kbtu.olx.UI.ProfileEditActivity
+import kz.kbtu.olx.ui.account.ChangePasswordActivity
+import kz.kbtu.olx.ui.account.ProfileEditActivity
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.FragmentAccountBinding
+import kz.kbtu.olx.ui.account.DeleteAccountActivity
+
 
 class AccountFragment : Fragment() {
+
     private lateinit var binding: FragmentAccountBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var mContext: Context
+    private lateinit var progressDialog: ProgressDialog
+
 
     override fun onAttach(context: Context) {
         mContext = context
         super.onAttach(context)
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
@@ -38,27 +46,44 @@ class AccountFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialog(mContext)
+        progressDialog.setTitle("Please wait...")
+        progressDialog.setCanceledOnTouchOutside(false)
 
         firebaseAuth = FirebaseAuth.getInstance()
 
         loadMyInfo()
 
-
         binding.logoutCv.setOnClickListener {
+
             firebaseAuth.signOut()
             startActivity(Intent(mContext, MainActivity::class.java))
             activity?.finishAffinity()
         }
 
         binding.editProfileCv.setOnClickListener {
+
             startActivity(Intent(mContext, ProfileEditActivity::class.java))
         }
 
         binding.changePasswordCv.setOnClickListener {
+
             startActivity(Intent(mContext, ChangePasswordActivity::class.java))
         }
+
+        binding.verifyAccountCv.setOnClickListener {
+
+            verifyAccount()
+        }
+
+        binding.deleteAccountCv.setOnClickListener {
+            startActivity(Intent(mContext, DeleteAccountActivity::class.java))
+        }
     }
+
 
     private fun loadMyInfo() {
         Log.d(TAG, "loadMyInfo: ")
@@ -93,13 +118,18 @@ class AccountFragment : Fragment() {
 
                         val isVerified = firebaseAuth.currentUser!!.isEmailVerified
                         if (isVerified){
+
+                            binding.verifyAccountCv.visibility = View.GONE
                             binding.verificationTv.text = "Verified"
                         } else {
+
+                            binding.verifyAccountCv.visibility = View.VISIBLE
                             binding.verificationTv.text = "Not Verified"
                         }
                     } else {
-                        binding.verificationTv.text = "Verified"
 
+                        binding.verifyAccountCv.visibility = View.GONE
+                        binding.verificationTv.text = "Verified"
                     }
 
                     try {
@@ -118,7 +148,32 @@ class AccountFragment : Fragment() {
             })
     }
 
+
+    private fun verifyAccount() {
+
+        Log.d(TAG, "verifyAccount: ")
+
+        progressDialog.setMessage("Sending verification instructions to your email...")
+        progressDialog.show()
+
+        firebaseAuth.currentUser!!.sendEmailVerification()
+            .addOnSuccessListener {
+
+                Log.d(TAG, "verifyAccount: Successfully sent.")
+                progressDialog.dismiss()
+                Utils.toast(mContext, "Verification instructions sent to your email...")
+            }
+            .addOnFailureListener { e->
+
+                Log.e(TAG, "verifyAccount: ", e)
+                progressDialog.dismiss()
+                Utils.toast(mContext, "Failed to send verification instructions due to ${e.message}")
+            }
+    }
+
+
     private companion object{
+
         private const val TAG = "ACCOUNT_TAG"
     }
 

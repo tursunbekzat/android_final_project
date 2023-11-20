@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import kz.kbtu.olx.UI.LoginOptionsActivity
+import kz.kbtu.olx.ui.LoginOptionsActivity
 import kz.kbtu.olx.databinding.ActivityMainBinding
 import kz.kbtu.olx.fragments.AccountFragment
 import kz.kbtu.olx.fragments.ChatsFragment

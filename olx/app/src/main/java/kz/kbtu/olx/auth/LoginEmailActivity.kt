@@ -8,7 +8,7 @@ import android.util.Log
 import android.util.Patterns
 import com.google.firebase.auth.FirebaseAuth
 import kz.kbtu.olx.MainActivity
-import kz.kbtu.olx.UI.ForgotPasswordActivity
+import kz.kbtu.olx.ui.account.ForgotPasswordActivity
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityLoginEmailBinding
 

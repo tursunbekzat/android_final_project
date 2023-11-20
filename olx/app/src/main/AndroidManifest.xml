@@ -22,13 +22,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UI.ChangePasswordActivity"
+            android:name=".ui.account.DeleteAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.ForgotPasswordActivity"
+            android:name=".ui.account.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.ProfileEditActivity"
+            android:name=".ui.account.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.account.ProfileEditActivity"
             android:exported="false" />
         <activity
             android:name=".auth.LoginPhoneActivity"
@@ -40,7 +43,7 @@
             android:name=".auth.LoginEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.LoginOptionsActivity"
+            android:name=".ui.LoginOptionsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
