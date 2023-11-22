@@ -27,7 +27,7 @@ import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityProfileEditBinding
 
 
-class ProfileEditActivity : AppCompatActivity() {
+class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileEditBinding
     private lateinit var firebaseAuth: FirebaseAuth
@@ -121,7 +121,6 @@ class ProfileEditActivity : AppCompatActivity() {
                 progressDialog.dismiss()
                 Utils.toast(this, "Failed to update user info due to ${e.message}")
             }
-
     }
 
 
@@ -202,7 +201,7 @@ class ProfileEditActivity : AppCompatActivity() {
                     }
 
                     try {
-                        Glide.with(this@ProfileEditActivity)
+                        Glide.with(this@EditProfileActivity)
                             .load(profileImageUrl)
                             .placeholder(R.drawable.ic_person_white)
                             .into(binding.profileIv)
