@@ -1,4 +1,4 @@
-package kz.kbtu.olx.ui
+package kz.kbtu.olx.auth
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -16,8 +16,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import kz.kbtu.olx.MainActivity
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.auth.LoginEmailActivity
-import kz.kbtu.olx.auth.LoginPhoneActivity
 import kz.kbtu.olx.databinding.ActivityLoginOptionsBinding
 
 class LoginOptionsActivity : AppCompatActivity() {

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import kz.kbtu.olx.R
 import kz.kbtu.olx.databinding.RowImagesPickedBinding
-import kz.kbtu.olx.ui.ModelImagePicked
+import kz.kbtu.olx.ui.sell.ModelImagePicked
 
 class AdapterImagePicked(
 

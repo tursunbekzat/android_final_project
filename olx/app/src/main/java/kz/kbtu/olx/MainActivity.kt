@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import kz.kbtu.olx.ui.LoginOptionsActivity
+import kz.kbtu.olx.auth.LoginOptionsActivity
 import kz.kbtu.olx.databinding.ActivityMainBinding
 import kz.kbtu.olx.fragments.AccountFragment
 import kz.kbtu.olx.fragments.ChatsFragment
 import kz.kbtu.olx.fragments.HomeFragment
 import kz.kbtu.olx.fragments.MyAdsFragment
-import kz.kbtu.olx.ui.CreateAdActivity
+import kz.kbtu.olx.ui.sell.CreateAdActivity
 
 class MainActivity : AppCompatActivity() {
 

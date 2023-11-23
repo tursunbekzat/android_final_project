@@ -1,4 +1,4 @@
-package kz.kbtu.olx.ui
+package kz.kbtu.olx.ui.sell
 
 
 import android.Manifest
@@ -68,6 +68,12 @@ class CreateAdActivity : AppCompatActivity() {
             showImagePickOptions()
         }
 
+        binding.locationAct.setOnClickListener {
+
+            val intent = Intent(this, LocationPickerActivity::class.java)
+            locationPickerActivityResultLauncherActivity.launch(intent)
+        }
+
         binding.postAdBtn.setOnClickListener {
 
             validateData()
@@ -75,6 +81,32 @@ class CreateAdActivity : AppCompatActivity() {
     }
 
 
+    private val locationPickerActivityResultLauncherActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            Log.d(TAG, "locationPickerActivityResultLauncherActivity: ")
+            if (result.resultCode == Activity.RESULT_OK) {
+
+                val data = result.data
+                if (data != null) {
+
+                    latitude = data.getDoubleExtra("latitude", 0.0)
+                    longitude = data.getDoubleExtra("longitude", 0.0)
+                    address = data.getStringExtra("address") ?: ""
+
+                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: latitude: $longitude")
+                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: longitude: $longitude")
+                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: address: $address")
+
+                    binding.locationAct.setText(address)
+                } else {
+
+                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: Cancelled...!")
+                    Utils.toast(this, "Cancelled...!")
+                }
+
+            }
+        }
     private fun loadImages(){
 
         Log.d(TAG, "loadImages: ")

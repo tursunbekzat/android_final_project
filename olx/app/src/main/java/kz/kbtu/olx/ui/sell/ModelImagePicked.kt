@@ -1,4 +1,4 @@
-package kz.kbtu.olx.ui
+package kz.kbtu.olx.ui.sell
 
 import android.net.Uri
 
