@@ -59,4 +59,13 @@
     <string name="continue_with_phone">Continue With Phone</string>
     <string name="continue_with_email">Continue With Email</string>
     <string name="logo">logo</string>
+    <string name="choose_location">Choose Location</string>
+    <string name="search">Search</string>
+    <string name="browse_categories">Browse Categories</string>
+    <string name="the_ad_title">The Ad Title</string>
+    <string name="the_long_description_of_the_ad_that_can_be_of_multiple_lines_but_will_show_here_in_3_lines">The long description of the Ad that can be of multiple lines but will show here in 3 lines.</string>
+    <string name="the_address_of_the_ad">The address of the Ad</string>
+    <string name="new_word">New</string>
+    <string name="price_symbol">$</string>
+    <string name="_00">00</string>
 </resources>

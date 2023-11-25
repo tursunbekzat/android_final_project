@@ -14,6 +14,7 @@ object Utils {
 
 
     val categories = arrayOf(
+        "All",
         "Mobiles",
         "Computer/Laptop",
         "Electronics & Home Appliances",
@@ -27,6 +28,20 @@ object Utils {
         "Agricultural"
     )
 
+    val categoryIcons = arrayOf(
+        R.drawable.ic_category_all,
+        R.drawable.ic_category_mobiles,
+        R.drawable.ic_category_computers,
+        R.drawable.ic_category_home,
+        R.drawable.ic_category_vehicle,
+        R.drawable.ic_category_furniture,
+        R.drawable.ic_category_fashion,
+        R.drawable.ic_category_books,
+        R.drawable.ic_category_sports,
+        R.drawable.ic_category_animals,
+        R.drawable.ic_category_business,
+        R.drawable.ic_category_agricultural
+    )
 
     val conditions = arrayOf(
         "New",
