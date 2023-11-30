@@ -23,6 +23,7 @@ import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.adapter.AdapterImagePicked
 import kz.kbtu.olx.databinding.ActivityCreateAdBinding
+import kz.kbtu.olx.models.ModelImagePicked
 
 
 class CreateAdActivity : AppCompatActivity() {
@@ -70,6 +71,7 @@ class CreateAdActivity : AppCompatActivity() {
 
         binding.locationAct.setOnClickListener {
 
+            Log.d(TAG, "onCreate: locationAct pressed")
             val intent = Intent(this, LocationPickerActivity::class.java)
             locationPickerActivityResultLauncherActivity.launch(intent)
         }
@@ -122,7 +124,7 @@ class CreateAdActivity : AppCompatActivity() {
 
         val popupMenu = PopupMenu(this, binding.toolbarAdBtn)
         popupMenu.menu.add(Menu.NONE, 1, 1, "Camera")
-        popupMenu.menu.add(Menu.NONE, 2, 2, "Galery")
+        popupMenu.menu.add(Menu.NONE, 2, 2, "Gallery")
         popupMenu.show()
         popupMenu.setOnMenuItemClickListener { item ->
 
@@ -222,7 +224,7 @@ class CreateAdActivity : AppCompatActivity() {
 
                 Log.d(TAG, "cameraActivityResultLauncher: Image Captured: imageUri: $imageUri")
 
-                val timestamp = "${Utils.getTimstamp()}"
+                val timestamp = "${Utils.getTimestamp()}"
                 val modelImagePicked = ModelImagePicked(timestamp, imageUri, null, false)
                 imagePickedArrayList.add(modelImagePicked)
 
@@ -250,7 +252,7 @@ class CreateAdActivity : AppCompatActivity() {
                 val data = result.data
                 imageUri = data!!.data
 
-                val timestamp = "${Utils.getTimstamp()}"
+                val timestamp = "${Utils.getTimestamp()}"
                 val modelImagePicked = ModelImagePicked(timestamp, imageUri, null, false)
 
                 imagePickedArrayList.add(modelImagePicked)
@@ -320,7 +322,7 @@ class CreateAdActivity : AppCompatActivity() {
         progressDialog.setMessage("Publishing Ad")
         progressDialog.show()
 
-        val timestamp = Utils.getTimstamp()
+        val timestamp = Utils.getTimestamp()
 
         val refAds = FirebaseDatabase.getInstance().getReference("Ads")
 
@@ -328,7 +330,7 @@ class CreateAdActivity : AppCompatActivity() {
 
         val hashMap = HashMap<String, Any>()
         hashMap["id"]= "$keyId"
-        hashMap["uid"]= "$firebaseAuth.uid"
+        hashMap["uid"]= "${firebaseAuth.uid}"
         hashMap["brand"]= brand
         hashMap["category"]= category
         hashMap["condition"]= condition

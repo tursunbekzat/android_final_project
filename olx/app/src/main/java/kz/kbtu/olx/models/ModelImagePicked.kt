@@ -1,4 +1,4 @@
-package kz.kbtu.olx.ui.sell
+package kz.kbtu.olx.models
 
 import android.net.Uri
 

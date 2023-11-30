@@ -213,7 +213,7 @@ class LoginPhoneActivity : AppCompatActivity() {
         progressDialog.setMessage("Saving User Info")
         progressDialog.show()
 
-        val timestamp = Utils.getTimstamp()
+        val timestamp = Utils.getTimestamp()
         val registeredUserUid = firebaseAuth.uid
 
         val hashMap = HashMap<String, Any?>()

@@ -123,7 +123,7 @@ class LoginOptionsActivity : AppCompatActivity() {
         progressDIalog.setMessage("Saving User Info...")
         progressDIalog.show()
 
-        val timestamp = Utils.getTimstamp()
+        val timestamp = Utils.getTimestamp()
         val registeredUserEmail = firebaseAuth.currentUser?.email
         val registeredUserUid = firebaseAuth.uid
         val name = firebaseAuth.currentUser?.displayName

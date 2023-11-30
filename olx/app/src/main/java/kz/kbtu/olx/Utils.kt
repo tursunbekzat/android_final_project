@@ -3,6 +3,8 @@ package kz.kbtu.olx
 import android.content.Context
 import android.text.format.DateFormat
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
 import java.util.Locale
 
@@ -14,6 +16,7 @@ object Utils {
 
 
     val categories = arrayOf(
+
         "All",
         "Mobiles",
         "Computer/Laptop",
@@ -29,6 +32,7 @@ object Utils {
     )
 
     val categoryIcons = arrayOf(
+
         R.drawable.ic_category_all,
         R.drawable.ic_category_mobiles,
         R.drawable.ic_category_computers,
@@ -44,6 +48,7 @@ object Utils {
     )
 
     val conditions = arrayOf(
+
         "New",
         "Used",
         "Refurbished"
@@ -54,16 +59,70 @@ object Utils {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun getTimstamp() : Long{
+    fun getTimestamp() : Long{
 
         return System.currentTimeMillis()
     }
 
     fun formatTimestampDate(timestamp: Long): String{
+
         val calendar = Calendar.getInstance(Locale.ENGLISH)
         calendar.timeInMillis = timestamp
 
         return DateFormat.format("dd/MM/yyyy", calendar).toString()
+    }
 
+
+    fun addToFavorite(context: Context, adId: String) {
+
+        val firebaseAuth = FirebaseAuth.getInstance()
+
+        if (firebaseAuth.currentUser == null) {
+
+            toast(context, "You are not logged-in!")
+        } else {
+
+            val timestamp = getTimestamp()
+
+            val hashMap = HashMap<String, Any>()
+            hashMap["adId"] = adId
+            hashMap["timestamp"] = timestamp
+
+            val ref = FirebaseDatabase.getInstance().getReference("Users")
+            ref.child(firebaseAuth.uid!!).child("Favorites").child(adId)
+                .setValue(hashMap)
+                .addOnSuccessListener {
+
+                    toast(context, "Added to favorite!")
+                }
+                .addOnFailureListener{ e->
+
+                    toast(context, "Failed to add to favorite due to ${e.message}")
+                }
+        }
+    }
+
+
+    fun removeFromFavorite(context: Context, adId: String) {
+
+        val firebaseAuth = FirebaseAuth.getInstance()
+
+        if (firebaseAuth.currentUser == null) {
+
+            toast(context, "You are not logged-in!")
+        } else {
+
+            val ref = FirebaseDatabase.getInstance().getReference("Users")
+            ref.child(firebaseAuth.uid!!).child("Favorites").child(adId)
+                .removeValue()
+                .addOnSuccessListener {
+
+                    toast(context, "Removed from favorite!")
+                }
+                .addOnFailureListener{ e->
+
+                        toast(context, "Failed to remove from favorites due to ${e.message}")
+                }
+        }
     }
 }

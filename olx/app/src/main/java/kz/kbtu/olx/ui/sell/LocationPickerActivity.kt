@@ -32,6 +32,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityLocationPickerBinding
+import kotlin.math.log
 
 class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -47,6 +48,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        Log.d(TAG, "onCreate: started")
         super.onCreate(savedInstanceState)
         binding = ActivityLocationPickerBinding.inflate(layoutInflater)
         setContentView(binding.root)

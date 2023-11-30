@@ -100,7 +100,7 @@ class RegisterEmailActivity : AppCompatActivity() {
         Log.d(TAG, "updateUserInfo: ")
         progressDialog.setMessage("Saving User Info")
 
-        val timestamp = Utils.getTimstamp()
+        val timestamp = Utils.getTimestamp()
         val registeredUserEmail = firebaseAuth.currentUser!!.email
         val registeredUserUid = firebaseAuth.uid
 

@@ -88,6 +88,11 @@ class AdapterAd: Adapter<AdapterAd.AdViewHolder>, Filterable{
 
         loadFirstImage(modelAd, holder)
 
+        if (firebaseAuth.currentUser != null){
+
+            checkIsFavorite(modelAd, holder)
+        }
+
         holder.titleTv.text = title
         holder.descriptionTv.text = description
         holder.condition.text = condition
@@ -95,6 +100,45 @@ class AdapterAd: Adapter<AdapterAd.AdViewHolder>, Filterable{
         holder.priceTv.text = price
         holder.dateTv.text = formattedData
 
+        binding.favBtn.setOnClickListener {
+
+            val favorite = modelAd.favorite
+            if (favorite){
+
+                Utils.removeFromFavorite(context, modelAd.id)
+            } else
+                Utils.addToFavorite(context, modelAd.id)
+
+
+
+        }
+
+    }
+
+    private fun checkIsFavorite(modelAd: ModelAd, holder: AdapterAd.AdViewHolder) {
+
+        val ref = FirebaseDatabase.getInstance().getReference("Users")
+        ref.child(firebaseAuth.uid!!).child("Favorites").child(modelAd.id)
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val favorite = snapshot.exists()
+                    modelAd.favorite = favorite
+
+                    if (favorite) {
+
+                        holder.favBtn.setImageResource(R.drawable.ic_fav)
+                    } else {
+
+                        holder.favBtn.setImageResource(R.drawable.ic_fav_no)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                    Utils.toast(context, "Failed ")
+                }
+            })
     }
 
 
