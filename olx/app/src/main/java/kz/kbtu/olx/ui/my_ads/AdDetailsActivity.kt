@@ -109,6 +109,9 @@ class AdDetailsActivity : AppCompatActivity() {
 
         binding.recieptProfileCv.setOnClickListener {
 
+            val intent = Intent(this, AdSellerActivity::class.java)
+            intent.putExtra("sellerUid", sellerUid)
+            startActivity(intent)
         }
 
         binding.chatBtn.setOnClickListener {
@@ -231,6 +234,8 @@ class AdDetailsActivity : AppCompatActivity() {
                             binding.chatBtn.visibility = View.GONE
                             binding.callBtn.visibility = View.GONE
                             binding.smsBtn.visibility = View.GONE
+                            binding.recieptProfileIv.visibility = View.GONE
+                            binding.recieptProfileCv.visibility = View.GONE
                         } else {
 
                             binding.toolbarEditBtn.visibility = View.GONE
@@ -239,6 +244,8 @@ class AdDetailsActivity : AppCompatActivity() {
                             binding.chatBtn.visibility = View.VISIBLE
                             binding.callBtn.visibility = View.VISIBLE
                             binding.smsBtn.visibility = View.VISIBLE
+                            binding.recieptProfileIv.visibility = View.VISIBLE
+                            binding.recieptProfileCv.visibility = View.VISIBLE
                         }
 
                         binding.titleTv.text = title

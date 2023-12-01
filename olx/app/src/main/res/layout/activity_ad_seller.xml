@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.my_ads.AdSellerActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbarRL"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/m_toolbar_height">
+
+        <!--   Back Button    -->
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button" />
+
+        <!--   Toolbar Image    -->
+        <TextView
+            android:id="@+id/toolbarTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seller Profile"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_centerInParent="true"/>
+
+        <!--   View for to be separated by a second layout   -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray02"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/profileCv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarRL"
+        app:contentPadding="10dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/sellerProfileIv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/gray01"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_white"
+               app:shapeAppearanceOverlay="@style/ImageStyle_Circle"/>
+
+            <TextView
+                android:id="@+id/sellerNameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/full_name"
+                android:layout_toEndOf="@id/sellerProfileIv"
+                style="@style/TextAppearance.MaterialComponents.Body1" />
+
+            <TextView
+                android:id="@+id/sellerMemberSinceLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/member_since"
+                android:layout_toEndOf="@id/sellerProfileIv"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_below="@id/sellerNameTv"/>
+
+            <TextView
+                android:id="@+id/memberSinceTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@tools:sample/date/ddmmyy"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_marginStart="4dp"
+                android:layout_below="@id/sellerNameTv"
+                android:layout_toEndOf="@id/sellerMemberSinceLabelTv"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray02"
+        android:layout_below="@id/profileCv"/>
+
+    <TextView
+        android:id="@+id/publishedAdsCountLabelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/published_ads"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/view1"/>
+
+    <TextView
+        android:id="@+id/publishedAdsCountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="4dp"
+        tools:text="0"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_below="@id/view1"
+        android:layout_toEndOf="@id/publishedAdsCountLabelTv"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/adsRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/publishedAdsCountLabelTv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_ad"/>
+
+</RelativeLayout>
