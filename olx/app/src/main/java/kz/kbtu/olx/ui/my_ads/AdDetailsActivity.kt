@@ -152,7 +152,13 @@ class AdDetailsActivity : AppCompatActivity() {
                 val intent = Intent(this, CreateAdActivity::class.java)
                 intent.putExtra("isEditMode", true)
                 intent.putExtra("adId", adId)
+                startActivity(intent)
+            } else if (itemID == 1) {
+
+                showMarkAsSoldDialog()
             }
+
+            return@setOnMenuItemClickListener true
         }
     }
 

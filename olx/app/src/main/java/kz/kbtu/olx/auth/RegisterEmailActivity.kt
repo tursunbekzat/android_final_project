@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.MainActivity
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityRegisterEmailBinding
@@ -84,6 +87,34 @@ class RegisterEmailActivity : AppCompatActivity() {
         progressDialog.setMessage("Creating Account")
         progressDialog.show()
 
+//        try {
+//
+//            val ref = FirebaseDatabase.getInstance().getReference("Users")
+//            ref.orderByChild("email").equalTo(email)
+//                .addListenerForSingleValueEvent(object : ValueEventListener {
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//                        if (snapshot.exists()) {
+//                            // User with the given email exists
+//                            Log.d(TAG, "onDataChange: User exists")
+//                            progressDialog.dismiss()
+//                            startActivity(Intent(this@RegisterEmailActivity, MainActivity::class.java))
+//                            finishAffinity()
+//                        } else {
+//                            // User does not exist
+//                            Log.d(TAG, "onDataChange: User does not exist")
+//                        }
+//                    }
+//
+//                    override fun onCancelled(error: DatabaseError) {
+//                        // Handle error if needed
+//                        Log.e(TAG, "onCancelled: Error reading database", error.toException())
+//                    }
+//                })
+//        } catch (e: Exception){
+//
+//            Log.e(TAG, "registerUser: ", e)
+//        }
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 Log.d(TAG, "registerUser: Register Success")
@@ -94,7 +125,7 @@ class RegisterEmailActivity : AppCompatActivity() {
                 progressDialog.dismiss()
                 Utils.toast(this, "Failed to create account due to ${e.message}")
             }
-    }
+        }
 
     private fun updateUserInfo(){
         Log.d(TAG, "updateUserInfo: ")

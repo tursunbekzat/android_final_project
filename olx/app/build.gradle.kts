@@ -58,13 +58,13 @@ dependencies {
 
     // Also add the dependency for the Google Play services library and specify its version
     implementation(libs.play.services.auth)
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation (libs.glide)
 
-    implementation("com.hbb20:ccp:2.7.0")
+    implementation(libs.ccp)
 
     // Maps SDK for Android
-    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation (libs.play.services.maps)
 
-    implementation ("com.google.android.libraries.places:places:3.3.0")
+    implementation (libs.places)
 
 }

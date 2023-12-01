@@ -50,22 +50,29 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
         Log.d(TAG, "onCreate: started")
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: continue1")
         binding = ActivityLocationPickerBinding.inflate(layoutInflater)
+        Log.d(TAG, "onCreate: continue2")
         setContentView(binding.root)
 
         binding.doneLl.visibility = View.GONE
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        Log.d(TAG, "onCreate: mapFragment")
 
         Places.initialize(this, getString(R.string.maps_api_key))
+        Log.d(TAG, "onCreate: Places.initialize")
 
         mPlacesClient = Places.createClient(this)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        Log.d(TAG, "onCreate: mPlacesClient, mFusedLocationProviderClient")
 
         val autocompleteSupportMapFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        Log.d(TAG, "onCreate: autocompleteSupportMapFragment")
 
         val placeList = arrayOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
+        Log.d(TAG, "onCreate: placeList")
 
         autocompleteSupportMapFragment.setPlaceFields(listOf(*placeList))
         autocompleteSupportMapFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener{

@@ -96,8 +96,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.sellFav.setOnClickListener {
-            startActivity(Intent(this, CreateAdActivity::class.java))
+            val intent = Intent(this, CreateAdActivity::class.java)
+            intent.putExtra("isEditMode", false)
+            startActivity(intent)
         }
+
     }
     private fun showHomeFragment(){
 
