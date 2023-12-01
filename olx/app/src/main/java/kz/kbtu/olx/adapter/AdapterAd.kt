@@ -1,6 +1,7 @@
 package kz.kbtu.olx.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.RowAdBinding
 import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.ui.my_ads.AdDetailsActivity
 import kz.kbtu.olx.ui.sell.FilterAd
 
 class AdapterAd: Adapter<AdapterAd.AdViewHolder>, Filterable{
@@ -106,11 +108,17 @@ class AdapterAd: Adapter<AdapterAd.AdViewHolder>, Filterable{
             if (favorite){
 
                 Utils.removeFromFavorite(context, modelAd.id)
-            } else
+            } else {
+
                 Utils.addToFavorite(context, modelAd.id)
+            }
+        }
 
+        holder.itemView.setOnClickListener {
 
-
+            val intent = Intent(context, AdDetailsActivity::class.java)
+            intent.putExtra("adId", modelAd.id)
+            context.startActivity(intent)
         }
 
     }

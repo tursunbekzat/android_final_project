@@ -1,6 +1,8 @@
 package kz.kbtu.olx
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.text.format.DateFormat
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -123,6 +125,37 @@ object Utils {
 
                         toast(context, "Failed to remove from favorites due to ${e.message}")
                 }
+        }
+    }
+
+
+    fun callIntent(context: Context, phone: String) {
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:${Uri.encode(phone)}"))
+        context.startActivity(intent)
+    }
+
+
+    fun smsIntent(context: Context, phone: String) {
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:${Uri.encode(phone)}"))
+        context.startActivity(intent)
+    }
+
+
+    fun mapIntent(context: Context, latitude: Double, longuitude: Double){
+
+        val gmmIntentUri = Uri.parse("http://maps.google.com/maps?daddr=$latitude,$longuitude")
+
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.com.android.apps.maps")
+
+        if (mapIntent.resolveActivity(context.packageManager) != null){
+
+            context.startActivity(mapIntent)
+        } else {
+
+            Utils.toast(context, "Google Map not installed")
         }
     }
 }

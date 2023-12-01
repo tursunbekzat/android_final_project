@@ -4,12 +4,9 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-
-<!--    <meta-data-->
-<!--        android:name="com.google.android.gms.version"-->
-<!--        android:value="@integer/google_play_services_version" />-->
-
+        android:required="false" /> <!-- <meta-data -->
+    <!-- android:name="com.google.android.gms.version" -->
+    <!-- android:value="@integer/google_play_services_version" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -27,6 +24,9 @@
         android:theme="@style/Theme.Olx"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.my_ads.AdDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.sell.LocationPickerActivity"
             android:exported="false" />
