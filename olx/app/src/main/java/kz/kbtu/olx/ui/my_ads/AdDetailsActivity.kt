@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
-import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -20,10 +19,9 @@ import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.adapter.AdapterImageSlider
 import kz.kbtu.olx.databinding.ActivityAdDetailsBinding
-import kz.kbtu.olx.fragments.ChatsFragment
 import kz.kbtu.olx.models.ModelAd
 import kz.kbtu.olx.models.ModelImageSlider
-import kz.kbtu.olx.ui.home.ChatActivity
+import kz.kbtu.olx.ui.chats.ChatActivity
 import kz.kbtu.olx.ui.sell.CreateAdActivity
 
 

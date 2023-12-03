@@ -21,7 +21,7 @@ import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.RowChatsBinding
 import kz.kbtu.olx.models.ModelChats
 import kz.kbtu.olx.ui.chats.FilterChats
-import kz.kbtu.olx.ui.home.ChatActivity
+import kz.kbtu.olx.ui.chats.ChatActivity
 
 class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
 

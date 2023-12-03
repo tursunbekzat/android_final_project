@@ -36,13 +36,14 @@
 
         <EditText
             android:id="@+id/searchEtt"
-            android:hint="@string/search"
-            android:drawablePadding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:drawableStart="@drawable/ic_search"/>
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:hint="@string/search"
+            android:minHeight="48dp"
+            android:padding="10dp" />
 
 
     </com.google.android.material.card.MaterialCardView>

@@ -1,4 +1,4 @@
-package kz.kbtu.olx.ui.home
+package kz.kbtu.olx.ui.chats
 
 import android.app.ProgressDialog
 import android.content.ContentValues

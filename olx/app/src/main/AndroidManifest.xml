@@ -34,7 +34,7 @@
 
         <activity
 
-            android:name=".ui.home.ChatActivity"
+            android:name=".ui.chats.ChatActivity"
             android:exported="false" />
 
         <activity
