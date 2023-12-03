@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" /> <!-- <meta-data -->
-    <!-- android:name="com.google.android.gms.version" -->
-    <!-- android:value="@integer/google_play_services_version" /> -->
+        android:required="false" />
+    <!-- <meta-data -->
+        <!-- android:name="com.google.android.gms.version" -->
+        <!-- android:value="@integer/google_play_services_version" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
 
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,64 +31,103 @@
         android:theme="@style/Theme.Olx"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
+
             android:name=".ui.home.ChatActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.my_ads.AdSellerActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.my_ads.AdDetailsActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.sell.LocationPickerActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.sell.CreateAdActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.account.DeleteAccountActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.account.ChangePasswordActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.account.ForgotPasswordActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".ui.account.EditProfileActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".auth.LoginPhoneActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".auth.RegisterEmailActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".auth.LoginEmailActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".auth.LoginOptionsActivity"
             android:exported="false" />
+
         <activity
+
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
-    As shown above, com.google.android.geo.API_KEY is the recommended metadata name for the API key.
+
+        <!-- As shown above, com.google.android.geo.API_KEY is the recommended metadata name for the API key.
         A key with this name can be used to authenticate to multiple Google Maps-based APIs on the Android platform,
         including the Maps SDK for Android. For backwards compatibility, the API also supports the name com.google.android.maps.v2.API_KEY.
         This legacy name allows authentication to the Android Maps API v2 only. An application can specify only one of the API key metadata names.
-        If both are specified, the API throws an exception.
-        -->
+        If both are specified, the API throws an exception. -->
+
         <meta-data
+
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
-    </application>
 
+        <service android:name=".ui.chats.MyFcmService"
+            android:exported="false">
+
+            <intent-filter>
+
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+    </application>
 </manifest>

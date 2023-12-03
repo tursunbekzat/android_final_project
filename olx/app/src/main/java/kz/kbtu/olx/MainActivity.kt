@@ -1,10 +1,17 @@
 package kz.kbtu.olx
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 import kz.kbtu.olx.auth.LoginOptionsActivity
 import kz.kbtu.olx.databinding.ActivityMainBinding
 import kz.kbtu.olx.fragments.AccountFragment
@@ -18,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var firebaseAuth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -28,12 +36,15 @@ class MainActivity : AppCompatActivity() {
 
         if (firebaseAuth.currentUser == null){
 
-            Log.d("Test", "firebase is null")
+            Log.d(TAG, "firebase is null")
             startLoginOptions()
-        }
-        else{
+        } else {
 
-            Log.d("Test", "firebase is not null ${firebaseAuth.currentUser}")
+            Log.d(TAG, "firebase is not null ${firebaseAuth.currentUser}")
+
+            updateFcmToken()
+
+            askNotificationPermission()
         }
 
         showHomeFragment()
@@ -145,5 +156,65 @@ class MainActivity : AppCompatActivity() {
     private fun startLoginOptions(){
 
         startActivity(Intent(this, LoginOptionsActivity::class.java))
+    }
+
+
+    private fun updateFcmToken(){
+
+        Log.d(TAG, "updateFcmToken: ")
+
+        val myUid = "${firebaseAuth.uid}"
+
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { fcmToken ->
+
+                Log.d(TAG, "updateFcmToken: fcmToken: $fcmToken")
+
+                val hashMap = HashMap<String, Any>()
+                hashMap["fcmToken"] = "$fcmToken"
+
+                val ref = FirebaseDatabase.getInstance().getReference("Users")
+                ref.child(myUid)
+                    .updateChildren(hashMap)
+                    .addOnSuccessListener {
+
+                        Log.d(TAG, "updateFcmToken: FCM Token updated to db Success")
+                    }
+                    .addOnFailureListener { e ->
+
+                        Log.e(TAG, "updateFcmToken: ", e)
+                    }
+            }
+            .addOnFailureListener { e ->
+
+                Log.e(TAG, "updateFcmToken: ", e)
+            }
+    }
+
+
+    private fun askNotificationPermission(){
+
+        Log.d(TAG, "askNotificationPermission: ")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED){
+
+                requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+
+    private val requestNotificationPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){ isGranted ->
+
+        Log.d(TAG, "requestNotificationPermission: isGranted: $isGranted")
+    }
+
+    private companion object {
+
+        private const val TAG = "MAIN_ACTIVITY_TAG"
     }
 }

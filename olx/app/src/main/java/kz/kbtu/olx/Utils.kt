@@ -13,11 +13,12 @@ import java.util.Locale
 
 object Utils {
 
-
     const val ADD_STATUS_AVAILABLE = "AVAILABLE"
     const val ADD_STATUS_SOLD = "SOLD"
     const val MESSAGE_TYPE_TEXT = "TEXT"
     const val MESSAGE_TYPE_IMAGE = "IMAGE"
+    const val NOTIFICATION_TYPE_NEW_MESSAGE = "NOTIFICATION_TYPE_NEW_MESSAGE"
+    const val FCM_SERVER_KEY = "AAAA8XngBkY:APA91bEWmN422ffj0c5n9wqI_2KmAN7L3watA5E6M2Rq3DYjPOQbKd23NSrcLaJlevVKye07qplVBa_JaFV4i-P7K3Wf0MMCYARmmR-jhK438tgtBL4eun5gLmxDoctZJog-5uwVldeO"
 
 
     val categories = arrayOf(
@@ -35,7 +36,6 @@ object Utils {
         "Businesses",
         "Agricultural"
     )
-
     val categoryIcons = arrayOf(
 
         R.drawable.ic_category_all,
@@ -51,7 +51,6 @@ object Utils {
         R.drawable.ic_category_business,
         R.drawable.ic_category_agricultural
     )
-
     val conditions = arrayOf(
 
         "New",
@@ -59,15 +58,18 @@ object Utils {
         "Refurbished"
     )
 
+
     fun toast(context: Context, message: String){
 
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+
     fun getTimestamp() : Long{
 
         return System.currentTimeMillis()
     }
+
 
     fun formatTimestampDate(timestamp: Long): String{
 

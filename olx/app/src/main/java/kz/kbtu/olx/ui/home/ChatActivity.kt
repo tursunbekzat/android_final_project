@@ -20,13 +20,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import android.Manifest
-import com.google.firebase.database.getValue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.storage.FirebaseStorage
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.adapter.AdapterChat
 import kz.kbtu.olx.databinding.ActivityChatBinding
 import kz.kbtu.olx.models.ModelChat
+import org.json.JSONObject
 
 class ChatActivity : AppCompatActivity() {
 
@@ -38,6 +41,9 @@ class ChatActivity : AppCompatActivity() {
     private var chatPath = ""
     private var imageUri:Uri? = null
     private var myUid = ""
+    private var myName = ""
+    private var receiptFcmToken = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -54,6 +60,8 @@ class ChatActivity : AppCompatActivity() {
         myUid = firebaseAuth.currentUser!!.uid
         chatPath = Utils.chatPath(receiptUid, myUid)
         Log.d(TAG, "onCreate: chatPath: $chatPath")
+
+        loadMyInfo()
 
         loadReceiptDetails()
 
@@ -79,7 +87,7 @@ class ChatActivity : AppCompatActivity() {
 
         Log.d(TAG, "loadMessages: ")
 
-        val messagesAray = ArrayList<ModelChat>()
+        val messagesArray = ArrayList<ModelChat>()
 
         val ref = FirebaseDatabase.getInstance().getReference("Chats")
         ref.child(chatPath)
@@ -88,7 +96,7 @@ class ChatActivity : AppCompatActivity() {
 
                     Log.d(TAG, "loadMessages: onDataChange: ")
 
-                    messagesAray.clear()
+                    messagesArray.clear()
 
                     for (ds: DataSnapshot in snapshot.children){
 
@@ -96,7 +104,7 @@ class ChatActivity : AppCompatActivity() {
 
                             val modelChat = ds.getValue(ModelChat::class.java)
                             Log.d(TAG, "onDataChange: modelChat: $modelChat")
-                            messagesAray.add(modelChat!!)
+                            messagesArray.add(modelChat!!)
 
                         } catch (e: Exception){
 
@@ -104,10 +112,28 @@ class ChatActivity : AppCompatActivity() {
                         }
                     }
 
-                    Log.d(TAG, "onDataChange: messagesAray: $messagesAray")
+                    Log.d(TAG, "onDataChange: messagesArray: $messagesArray")
 
-                    val adapterChat = AdapterChat(this@ChatActivity, messagesAray)
+                    val adapterChat = AdapterChat(this@ChatActivity, messagesArray)
                     binding.chatRv.adapter = adapterChat
+                }
+                override fun onCancelled(error: DatabaseError) {}
+            })
+    }
+
+
+    private fun loadMyInfo(){
+
+        Log.d(TAG, "loadMyInfo: ")
+
+        val ref = FirebaseDatabase.getInstance().getReference("Users")
+        ref.child("${firebaseAuth.uid}")
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    myName = "${snapshot.child("name").value}"
+
+                    Log.d(TAG, "onDataChange: ")
                 }
                 override fun onCancelled(error: DatabaseError) {}
             })
@@ -128,8 +154,11 @@ class ChatActivity : AppCompatActivity() {
                         var name = "${snapshot.child("name").value}"
                         var imageUrl = "${snapshot.child("profileImageUrl").value}"
 
+                        receiptFcmToken = "${snapshot.child("fcmToken").value}"
+
                         Log.d(TAG, "onDataChange: name: $name")
                         Log.d(TAG, "onDataChange: imageUrl: $imageUrl")
+                        Log.d(TAG, "onDataChange: receiptFcmToken: $receiptFcmToken")
 
                         binding.toolbarTitleTv.text = name
 
@@ -381,6 +410,14 @@ class ChatActivity : AppCompatActivity() {
                 progressDialog.dismiss()
 
                 binding.messageEt.setText("")
+
+                if (messageType == Utils.MESSAGE_TYPE_TEXT){
+
+                    prepareNotification(message)
+                } else {
+
+                    prepareNotification("Send an attachment")
+                }
             }
             .addOnFailureListener { e ->
 
@@ -391,6 +428,64 @@ class ChatActivity : AppCompatActivity() {
             }
     }
 
+
+    private fun prepareNotification(message: String){
+
+        Log.d(TAG, "prepareNotification: ")
+
+        val notificationJo = JSONObject()
+        val notificationDataJo = JSONObject()
+        val notificationNotificationJo = JSONObject()
+
+        try {
+
+            notificationDataJo.put("notificationType", "${Utils.NOTIFICATION_TYPE_NEW_MESSAGE}")
+            notificationDataJo.put("senderUid", "${firebaseAuth.uid}")
+
+            notificationNotificationJo.put("title", "$myName")
+            notificationNotificationJo.put("body", "$message")
+            notificationNotificationJo.put("sound", "default")
+
+            notificationJo.put("to", "$receiptFcmToken")
+            notificationJo.put("notification", notificationNotificationJo)
+            notificationJo.put("data", notificationDataJo)
+        } catch (e: Exception){
+
+            Log.e(TAG, "prepareNotification: ", e)
+        }
+
+        sendFcmNotification(notificationJo)
+    }
+
+
+    private fun sendFcmNotification(notificationJo: JSONObject){
+
+        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(
+            Method.POST,
+            "http://fcm.googleapis.com/fcm/send",
+            notificationJo,
+            Response.Listener {
+
+                Log.d(TAG, "sendFcmNotification: Notification send $it")
+            },
+            Response.ErrorListener { e ->
+
+                Log.e(TAG, "sendFcmNotification: ", e)
+            }
+        ){
+            override fun getHeaders(): MutableMap<String, String> {
+
+                val headers = HashMap<String, String>()
+
+                headers["Content-Type"] = "application/json"
+                headers["Authorization-Type"] = "key=${Utils.FCM_SERVER_KEY}"
+
+                return headers
+            }
+        }
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest)
+    }
 
     private companion object {
 
