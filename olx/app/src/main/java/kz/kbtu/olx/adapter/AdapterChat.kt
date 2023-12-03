@@ -71,14 +71,13 @@ class AdapterChat : RecyclerView.Adapter<AdapterChat.ChatViewHolder>{
 
     override fun getItemViewType(position: Int): Int {
 
-        return super.getItemViewType(position)
 
         if (chatArrayList[position].fromUid == firebaseAuth.uid){
 
-            return MESSAGE_TYPE_LEFT
+            return MESSAGE_TYPE_RIGHT
         } else {
 
-            return MESSAGE_TYPE_RIGHT
+            return MESSAGE_TYPE_LEFT
         }
     }
 

@@ -52,7 +52,8 @@
     <string name="price">Price</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="maps_api_key">AIzaSyC-SBejs1Wysei7fEgppbpTw_g9UILEZWg</string>
+<!--    <string name="maps_api_key">AIzaSyC-SBejs1Wysei7fEgppbpTw_g9UILEZWg</string>-->
+    <string name="maps_api_key">AIzaSyCWJmAz0wYtOwIBQX7vqPcnh1jFtutR2HM</string>
     <string name="pick_location">Pick Location</string>
     <string name="done">Done</string>
     <string name="continue_with_google">Continue With Google</string>

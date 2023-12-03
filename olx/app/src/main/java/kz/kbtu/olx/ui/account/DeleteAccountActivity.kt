@@ -1,21 +1,25 @@
 package kz.kbtu.olx.ui.account
 
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.oAuthCredential
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.MainActivity
-import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityDeleteAccountBinding
+import kotlin.math.log
+
 
 class DeleteAccountActivity : AppCompatActivity() {
 
@@ -37,7 +41,7 @@ class DeleteAccountActivity : AppCompatActivity() {
         progressDialog.setTitle("Please wait...")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        binding.deleteAccountBtn.setOnClickListener {
+        binding.toolbarBackBtn.setOnClickListener {
 
             onBackPressed()
         }
@@ -57,6 +61,7 @@ class DeleteAccountActivity : AppCompatActivity() {
         progressDialog.show()
 
         val myUid = firebaseAuth.uid
+
 
         firebaseUser.delete()
             .addOnSuccessListener {
@@ -111,10 +116,6 @@ class DeleteAccountActivity : AppCompatActivity() {
         finishAffinity()
     }
 
-    override fun onBackPressed() {
-
-        startMainActivity()
-    }
 
     private companion object {
 

@@ -53,8 +53,6 @@ class AdDetailsActivity : AppCompatActivity() {
         binding.callBtn.visibility = View.GONE
         binding.smsBtn.visibility = View.GONE
 
-
-
         firebaseAuth = FirebaseAuth.getInstance()
         adId = intent.getStringExtra("adId").toString()
         Log.d(TAG, "onCreate: adId: $adId")
@@ -231,9 +229,10 @@ class AdDetailsActivity : AppCompatActivity() {
                             binding.toolbarEditBtn.visibility = View.VISIBLE
                             binding.toolbarDeleteBtn.visibility = View.VISIBLE
 
-                            binding.chatBtn.visibility = View.VISIBLE
-//                            binding.callBtn.visibility = View.GONE
-//                            binding.smsBtn.visibility = View.GONE
+                            binding.chatBtn.visibility = View.GONE
+                            binding.callBtn.visibility = View.GONE
+                            binding.smsBtn.visibility = View.GONE
+                            binding.recieptProfileLabelTv.visibility = View.GONE
                             binding.recieptProfileIv.visibility = View.GONE
                             binding.recieptProfileCv.visibility = View.GONE
                         } else {
@@ -244,6 +243,7 @@ class AdDetailsActivity : AppCompatActivity() {
                             binding.chatBtn.visibility = View.VISIBLE
                             binding.callBtn.visibility = View.VISIBLE
                             binding.smsBtn.visibility = View.VISIBLE
+                            binding.recieptProfileLabelTv.visibility = View.VISIBLE
                             binding.recieptProfileIv.visibility = View.VISIBLE
                             binding.recieptProfileCv.visibility = View.VISIBLE
                         }

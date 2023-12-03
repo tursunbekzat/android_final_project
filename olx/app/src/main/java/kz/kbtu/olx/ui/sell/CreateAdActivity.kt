@@ -342,7 +342,6 @@ class CreateAdActivity : AppCompatActivity() {
                 postAd()
             }
         }
-        onBackPressed()
     }
 
     private fun postAd(){

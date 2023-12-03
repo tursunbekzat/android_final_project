@@ -43,6 +43,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityProfileEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,17 +53,21 @@ class EditProfileActivity : AppCompatActivity() {
         progressDialog.setCanceledOnTouchOutside(false)
 
         firebaseAuth = FirebaseAuth.getInstance()
+
         loadMyInfo()
 
         binding.toolbarBackBtn.setOnClickListener {
+
             onBackPressed()
         }
 
         binding.profileImagePickFab.setOnClickListener {
+
             imagePickDialog()
         }
 
         binding.updateBtn.setOnClickListener {
+
             validateData()
         }
 
@@ -70,6 +75,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     private fun validateData(){
+
         name = binding.nameEt.text.toString().trim()
         dob = binding.dobEt.text.toString().trim()
         email = binding.emailEt.text.toString().trim()
@@ -80,12 +86,14 @@ class EditProfileActivity : AppCompatActivity() {
 
             updateProfileDb(null)
         } else {
+
             uploadProfileImageStorage()
         }
     }
 
 
     private fun updateProfileDb(uploadedImageUrl: String?) {
+
         Log.d(TAG, "updateProfileDb: uploadedImageUrl: $uploadedImageUrl")
 
         progressDialog.setMessage("Updating user info")
@@ -94,10 +102,12 @@ class EditProfileActivity : AppCompatActivity() {
         val hashMap = HashMap<String, Any>()
         hashMap["name"]= name
         hashMap["dob"]= dob
+
         if (uploadedImageUrl != null) {
 
             hashMap["profileImageUrl"]= uploadedImageUrl
         }
+
         if (myUserType.equals("Phone", true)) {
 
             hashMap["email"]= email
@@ -121,6 +131,7 @@ class EditProfileActivity : AppCompatActivity() {
                 progressDialog.dismiss()
                 Utils.toast(this, "Failed to update user info due to ${e.message}")
             }
+//        onBackPressed()
     }
 
 
@@ -136,9 +147,9 @@ class EditProfileActivity : AppCompatActivity() {
         ref.putFile(imageUri!!)
             .addOnProgressListener { snapshot ->
 
-                val progress = 100.0* snapshot.bytesTransferred / snapshot.totalByteCount
+                val progress = 100.0*snapshot.bytesTransferred / snapshot.totalByteCount
                 Log.d(TAG, "uploadProfileImageStorage: progress: $progress")
-                progressDialog.setMessage("Uploading profile image. Progress: $progress")
+                progressDialog.setMessage("Uploading profile image. \nProgress: ${progress.toInt()}")
             }
             .addOnSuccessListener { taskSnapshot ->
 
@@ -150,6 +161,7 @@ class EditProfileActivity : AppCompatActivity() {
 
                     updateProfileDb(uploadedImageUrl)
                 }
+                progressDialog.dismiss()
             }
             .addOnFailureListener {e ->
 

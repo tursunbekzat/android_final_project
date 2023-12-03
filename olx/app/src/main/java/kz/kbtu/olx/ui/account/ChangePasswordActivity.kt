@@ -1,9 +1,10 @@
 package kz.kbtu.olx.ui.account
 
 import android.app.ProgressDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -118,9 +119,10 @@ class ChangePasswordActivity : AppCompatActivity() {
             }
     }
 
+
     private companion object {
 
-        private const val TAG = "NN"
+        private const val TAG = "CHANGE_PASSWORD_TAG"
     }
 
 }
