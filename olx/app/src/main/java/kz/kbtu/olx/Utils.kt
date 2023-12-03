@@ -7,6 +7,7 @@ import android.text.format.DateFormat
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import java.util.Arrays
 import java.util.Calendar
 import java.util.Locale
 
@@ -15,6 +16,8 @@ object Utils {
 
     const val ADD_STATUS_AVAILABLE = "AVAILABLE"
     const val ADD_STATUS_SOLD = "SOLD"
+    const val MESSAGE_TYPE_TEXT = "TEXT"
+    const val MESSAGE_TYPE_IMAGE = "IMAGE"
 
 
     val categories = arrayOf(
@@ -72,6 +75,15 @@ object Utils {
         calendar.timeInMillis = timestamp
 
         return DateFormat.format("dd/MM/yyyy", calendar).toString()
+    }
+
+
+    fun formatTimestampDateTime(timestamp: Long): String{
+
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timestamp
+
+        return DateFormat.format("dd/MM/yyyy hh:mm:a", calendar).toString()
     }
 
 
@@ -157,5 +169,14 @@ object Utils {
 
             Utils.toast(context, "Google Map not installed")
         }
+    }
+
+
+    fun chatPath(receiptUid: String, yourUid: String) : String {
+
+        val arrayUids = arrayOf(receiptUid, yourUid)
+        Arrays.sort(arrayUids)
+
+        return "${arrayUids[0]}_${arrayUids[1]}"
     }
 }

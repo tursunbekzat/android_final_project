@@ -23,6 +23,7 @@ import kz.kbtu.olx.databinding.ActivityAdDetailsBinding
 import kz.kbtu.olx.fragments.ChatsFragment
 import kz.kbtu.olx.models.ModelAd
 import kz.kbtu.olx.models.ModelImageSlider
+import kz.kbtu.olx.ui.home.ChatActivity
 import kz.kbtu.olx.ui.sell.CreateAdActivity
 
 
@@ -116,8 +117,9 @@ class AdDetailsActivity : AppCompatActivity() {
 
         binding.chatBtn.setOnClickListener {
 
-
-            startActivity(Intent(this, ChatsFragment::class.java))
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("sellerUid", sellerUid)
+            startActivity(intent)
         }
 
         binding.callBtn.setOnClickListener {
@@ -231,9 +233,9 @@ class AdDetailsActivity : AppCompatActivity() {
                             binding.toolbarEditBtn.visibility = View.VISIBLE
                             binding.toolbarDeleteBtn.visibility = View.VISIBLE
 
-                            binding.chatBtn.visibility = View.GONE
-                            binding.callBtn.visibility = View.GONE
-                            binding.smsBtn.visibility = View.GONE
+                            binding.chatBtn.visibility = View.VISIBLE
+//                            binding.callBtn.visibility = View.GONE
+//                            binding.smsBtn.visibility = View.GONE
                             binding.recieptProfileIv.visibility = View.GONE
                             binding.recieptProfileCv.visibility = View.GONE
                         } else {

@@ -194,7 +194,7 @@ class HomeFragment : Fragment() {
 
                         if (category == "All") {
 
-                            if (distance <= 10000) {
+                            if (distance <= MAX_DISTANCE_TO_LOAD_ADS_KM) {
 
                                 Log.d(TAG, "loadAds: onDataChange: ads added")
 
@@ -204,7 +204,7 @@ class HomeFragment : Fragment() {
 
                             if (modelAd!!.category.equals(category)) {
 
-                                if (distance <= 10000) {
+                                if (distance <= MAX_DISTANCE_TO_LOAD_ADS_KM) {
 
                                     Log.d(TAG, "loadAds: onDataChange: ads added")
 
