@@ -75,10 +75,10 @@ class AdapterChat : RecyclerView.Adapter<AdapterChat.ChatViewHolder>{
 
         if (chatArrayList[position].fromUid == firebaseAuth.uid){
 
-            return MESSAGE_TYPE_RIGHT
+            return MESSAGE_TYPE_LEFT
         } else {
 
-            return MESSAGE_TYPE_LEFT
+            return MESSAGE_TYPE_RIGHT
         }
     }
 

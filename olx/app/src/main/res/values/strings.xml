@@ -72,6 +72,7 @@
     <string name="address">Address</string>
     <string name="seller_description">Seller Description</string>
     <string name="chat">Chat</string>
+    <string name="chats">Chats</string>
     <string name="call">Call</string>
     <string name="sms">Sms</string>
     <string name="map">Map</string>
