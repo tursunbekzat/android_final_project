@@ -1,7 +1,10 @@
 package kz.kbtu.olx.ui.sell
 
+import android.util.Log
 import android.widget.Filter
+import androidx.recyclerview.widget.DiffUtil
 import kz.kbtu.olx.adapter.AdapterAd
+import kz.kbtu.olx.difUtils.AdDiffUtilCallback
 import kz.kbtu.olx.models.ModelAd
 import java.util.Locale
 import kotlin.collections.ArrayList
@@ -48,7 +51,23 @@ class FilterAd(
 
     override fun publishResults(constraint: CharSequence?, results: FilterResults) {
 
+        Log.d(TAG, "publishResults: ")
+
+//        val newAdList = results.values as ArrayList<ModelAd>
+        val adDiffUtilCallback = AdDiffUtilCallback(adapter.adArrayList, results.values as ArrayList<ModelAd>)
+        val adDiffResult = DiffUtil.calculateDiff(adDiffUtilCallback)
+
+        Log.d(TAG, "publishResults: adDiffUtilCallback: $adDiffUtilCallback")
+        Log.d(TAG, "publishResults: adDiffResult: $adDiffResult")
+
         adapter.adArrayList = results.values as ArrayList<ModelAd>
-        adapter.notifyDataSetChanged()
+        adDiffResult.dispatchUpdatesTo(adapter)
+//        adapter.notifyDataSetChanged()
+    }
+
+
+    private companion object {
+
+        private const val TAG = "FILTER_AD_TAG"
     }
 }

@@ -23,7 +23,10 @@ import kz.kbtu.olx.models.ModelAd
 import kz.kbtu.olx.ui.my_ads.AdDetailsActivity
 import kz.kbtu.olx.ui.sell.FilterAd
 
-class AdapterAd: Adapter<AdapterAd.AdViewHolder>, Filterable{
+class AdapterAd(
+    private var context: Context,
+    var adArrayList: ArrayList<ModelAd>
+) : Adapter<AdapterAd.AdViewHolder>(), Filterable{
 
 
     private lateinit var binding: RowAdBinding
@@ -35,17 +38,12 @@ class AdapterAd: Adapter<AdapterAd.AdViewHolder>, Filterable{
     }
 
 
-    private var context: Context
-    var adArrayList: ArrayList<ModelAd>
+//    var adArrayList: ArrayList<ModelAd>
     private var firebaseAuth: FirebaseAuth
-    private var filteredList: ArrayList<ModelAd>
+    private var filteredList: ArrayList<ModelAd> = adArrayList
     private var filter: FilterAd? = null
 
-    constructor(context: Context, adArrayList: ArrayList<ModelAd>) : super() {
-
-        this.context = context
-        this.adArrayList = adArrayList
-        this.filteredList = adArrayList
+    init {
         firebaseAuth = FirebaseAuth.getInstance()
     }
 
