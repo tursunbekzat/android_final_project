@@ -60,6 +60,13 @@ class AdDetailsActivity : AppCompatActivity() {
         if (firebaseAuth.currentUser != null) {
 
             checkIsFavorite()
+        } else {
+
+            binding.chatBtn.visibility = View.GONE
+            binding.callBtn.visibility = View.GONE
+            binding.smsBtn.visibility = View.GONE
+            binding.mapBtn.visibility = View.GONE
+            binding.toolbarFavBtn.visibility = View.GONE
         }
 
         loadAdDetails()
@@ -224,30 +231,32 @@ class AdDetailsActivity : AppCompatActivity() {
                         var timestamp = modelAd.timestamp
                         val formattedData = Utils.formatTimestampDate(timestamp)
 
-                        if (sellerUid == firebaseAuth.uid) {
+                        if (firebaseAuth.currentUser != null) {
 
-                            binding.toolbarEditBtn.visibility = View.VISIBLE
-                            binding.toolbarDeleteBtn.visibility = View.VISIBLE
+                            if (sellerUid == firebaseAuth.uid) {
 
-                            binding.chatBtn.visibility = View.GONE
-                            binding.callBtn.visibility = View.GONE
-                            binding.smsBtn.visibility = View.GONE
-                            binding.recieptProfileLabelTv.visibility = View.GONE
-                            binding.recieptProfileIv.visibility = View.GONE
-                            binding.recieptProfileCv.visibility = View.GONE
-                        } else {
+                                binding.toolbarEditBtn.visibility = View.VISIBLE
+                                binding.toolbarDeleteBtn.visibility = View.VISIBLE
 
-                            binding.toolbarEditBtn.visibility = View.GONE
-                            binding.toolbarDeleteBtn.visibility = View.GONE
+                                binding.chatBtn.visibility = View.GONE
+                                binding.callBtn.visibility = View.GONE
+                                binding.smsBtn.visibility = View.GONE
+                                binding.recieptProfileLabelTv.visibility = View.GONE
+                                binding.recieptProfileIv.visibility = View.GONE
+                                binding.recieptProfileCv.visibility = View.GONE
+                            } else {
 
-                            binding.chatBtn.visibility = View.VISIBLE
-                            binding.callBtn.visibility = View.VISIBLE
-                            binding.smsBtn.visibility = View.VISIBLE
-                            binding.recieptProfileLabelTv.visibility = View.VISIBLE
-                            binding.recieptProfileIv.visibility = View.VISIBLE
-                            binding.recieptProfileCv.visibility = View.VISIBLE
+                                binding.toolbarEditBtn.visibility = View.GONE
+                                binding.toolbarDeleteBtn.visibility = View.GONE
+
+                                binding.chatBtn.visibility = View.VISIBLE
+                                binding.callBtn.visibility = View.VISIBLE
+                                binding.smsBtn.visibility = View.VISIBLE
+                                binding.recieptProfileLabelTv.visibility = View.VISIBLE
+                                binding.recieptProfileIv.visibility = View.VISIBLE
+                                binding.recieptProfileCv.visibility = View.VISIBLE
+                            }
                         }
-
                         binding.titleTv.text = title
                         binding.descriptionTv.text = description
                         binding.priceTv.text = price

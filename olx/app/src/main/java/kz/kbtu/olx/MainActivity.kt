@@ -107,9 +107,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.sellFav.setOnClickListener {
-            val intent = Intent(this, CreateAdActivity::class.java)
-            intent.putExtra("isEditMode", false)
-            startActivity(intent)
+
+            if (firebaseAuth.currentUser == null) {
+
+                Utils.toast(this, "Login Required")
+                startLoginOptions()
+            }
+            else {
+
+
+                val intent = Intent(this, CreateAdActivity::class.java)
+                intent.putExtra("isEditMode", false)
+                startActivity(intent)
+            }
         }
 
     }
