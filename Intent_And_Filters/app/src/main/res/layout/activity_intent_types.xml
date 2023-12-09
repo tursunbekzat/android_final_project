@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".IntentActivity"
     android:padding="10dp">
 
 
     <TextView
-        android:id="@+id/welcomeTv"
+        android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to My App"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"
+        android:text="Intent Types"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:fontFamily="casual"/>
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/titleTv"
+        android:background="@color/black"/>
 
 
     <ImageView
-        android:id="@+id/intnetIv"
+        android:id="@+id/intentTypesTextTv"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/intentTypesIv"
+        android:src="@drawable/intent_types" />
+
+
+    <ImageView
+        android:id="@+id/intentTypesIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/intent"/>
+        android:src="@drawable/intent_types_text"
+        android:layout_below="@id/view"
+        android:layout_marginTop="10dp" />
 
 
     <Button
@@ -35,7 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Go To About" />
+        android:text="Go To Back" />
+
 
     <Button
         android:id="@+id/startLearningBtn"
@@ -44,5 +58,6 @@
         android:layout_marginTop="10dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:text="Start Learning" />
+        android:text="Next Page" />
+
 </RelativeLayout>
