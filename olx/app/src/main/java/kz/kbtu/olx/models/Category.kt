@@ -1,6 +1,6 @@
 package kz.kbtu.olx.models
 
-class ModelCategory (
+class Category (
 
     val category: String,
     val icon: Int

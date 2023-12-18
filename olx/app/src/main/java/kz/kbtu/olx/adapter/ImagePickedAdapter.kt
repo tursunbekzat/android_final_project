@@ -12,14 +12,14 @@ import com.google.firebase.database.FirebaseDatabase
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.RowImagesPickedBinding
-import kz.kbtu.olx.models.ModelImagePicked
+import kz.kbtu.olx.models.ImagePicked
 
-class AdapterImagePicked(
+class ImagePickedAdapter(
 
     private val context: Context,
-    private val imagesPickedArrayList: ArrayList<ModelImagePicked>,
+    private val imagesPickedArrayList: ArrayList<ImagePicked>,
     private val adId: String
-) : Adapter<AdapterImagePicked.HolderImagePicked>() {
+) : Adapter<ImagePickedAdapter.HolderImagePicked>() {
 
     private lateinit var binding: RowImagesPickedBinding
 
@@ -88,7 +88,7 @@ class AdapterImagePicked(
         }
     }
 
-    private fun deleteImageFirebase(model: ModelImagePicked, holder: HolderImagePicked, position: Int) {
+    private fun deleteImageFirebase(model: ImagePicked, holder: HolderImagePicked, position: Int) {
 
         val imageId = model.id
 

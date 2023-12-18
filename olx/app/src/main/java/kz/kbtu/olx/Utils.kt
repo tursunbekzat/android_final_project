@@ -12,12 +12,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kz.kbtu.olx.adapter.AdapterAd
-import kz.kbtu.olx.adapter.AdapterChats
-import kz.kbtu.olx.adapter.AdapterImagePicked
-import kz.kbtu.olx.models.ModelAd
-import kz.kbtu.olx.models.ModelChats
-import kz.kbtu.olx.models.ModelImagePicked
+import kz.kbtu.olx.adapter.AdAdapter
+import kz.kbtu.olx.models.Ad
 import java.util.Arrays
 import java.util.Calendar
 import java.util.Locale
@@ -194,15 +190,15 @@ object Utils {
     }
 
 
-    fun checkIsFavorite(modelAd: ModelAd, holder: AdapterAd.AdViewHolder, context: Context, firebaseAuth: FirebaseAuth) {
+    fun checkIsFavorite(ad: Ad, holder: AdAdapter.AdViewHolder, context: Context, firebaseAuth: FirebaseAuth) {
 
         val ref = FirebaseDatabase.getInstance().getReference("Users")
-        ref.child(firebaseAuth.uid!!).child("Favorites").child(modelAd.id)
+        ref.child(firebaseAuth.uid!!).child("Favorites").child(ad.id)
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     val favorite = snapshot.exists()
-                    modelAd.favorite = favorite
+                    ad.favorite = favorite
 
                     if (favorite) {
 
@@ -221,9 +217,9 @@ object Utils {
     }
 
 
-    fun loadFirstImage(modelAd: ModelAd, holder: AdapterAd.AdViewHolder, context: Context) {
+    fun loadFirstImage(ad: Ad, holder: AdAdapter.AdViewHolder, context: Context) {
 
-        val aId = modelAd.id
+        val aId = ad.id
 
         val reference = FirebaseDatabase.getInstance().getReference("Ads")
         reference.child(aId).child("Images").limitToFirst(1)

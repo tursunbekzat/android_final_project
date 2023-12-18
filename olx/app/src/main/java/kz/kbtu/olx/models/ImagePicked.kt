@@ -2,7 +2,7 @@ package kz.kbtu.olx.models
 
 import android.net.Uri
 
-class ModelImagePicked {
+class ImagePicked {
 
     var id = ""
     var imageUri: Uri? = null

@@ -2,7 +2,6 @@ package kz.kbtu.olx.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +13,8 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kz.kbtu.olx.databinding.FragmentMyAdsBinding
-import kz.kbtu.olx.ui.my_ads.MyAdsAdsFragment
-import kz.kbtu.olx.ui.my_ads.MyAdsFavFragment
+import kz.kbtu.olx.ui.my_ads.MyAdsFragment
+import kz.kbtu.olx.ui.my_ads.FavAdsFragment
 
 class MyAdsFragment : Fragment() {
 
@@ -73,8 +72,8 @@ class MyAdsFragment : Fragment() {
 
         override fun createFragment(position: Int): Fragment {
 
-            if (position == 0) return MyAdsAdsFragment()
-            else return MyAdsFavFragment()
+            if (position == 0) return MyAdsFragment()
+            else return FavAdsFragment()
         }
 
         override fun getItemCount(): Int {

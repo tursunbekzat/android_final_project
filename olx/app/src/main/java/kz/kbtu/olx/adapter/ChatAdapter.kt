@@ -13,16 +13,16 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.models.ModelChat
+import kz.kbtu.olx.models.Chat
 
-class AdapterChat : RecyclerView.Adapter<AdapterChat.ChatViewHolder>{
+class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>{
 
     private val context: Context
-    private val chatArrayList: ArrayList<ModelChat>
+    private val chatArrayList: ArrayList<Chat>
     private val firebaseAuth: FirebaseAuth
 
 
-    constructor(context: Context, chatArrayList: ArrayList<ModelChat>){
+    constructor(context: Context, chatArrayList: ArrayList<Chat>){
 
         this.context = context
         this.chatArrayList = chatArrayList

@@ -1,6 +1,6 @@
 package kz.kbtu.olx.models
 
-class ModelAd {
+class Ad {
 
     var id:String = ""
     var uid:String = ""

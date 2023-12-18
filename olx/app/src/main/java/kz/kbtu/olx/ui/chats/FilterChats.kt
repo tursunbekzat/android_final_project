@@ -1,18 +1,18 @@
 package kz.kbtu.olx.ui.chats
 
 import android.widget.Filter
-import kz.kbtu.olx.adapter.AdapterChats
-import kz.kbtu.olx.models.ModelChats
+import kz.kbtu.olx.adapter.ChatsAdapter
+import kz.kbtu.olx.models.Chats
 
 class FilterChats : Filter {
 
-    private val adapterChats: AdapterChats
-    private val filterList: ArrayList<ModelChats>
+    private val chatsAdapter: ChatsAdapter
+    private val filterList: ArrayList<Chats>
 
 
-    constructor(adapterChats: AdapterChats, filterList: ArrayList<ModelChats>) : super() {
+    constructor(chatsAdapter: ChatsAdapter, filterList: ArrayList<Chats>) : super() {
 
-        this.adapterChats = adapterChats
+        this.chatsAdapter = chatsAdapter
         this.filterList = filterList
     }
 
@@ -26,7 +26,7 @@ class FilterChats : Filter {
 
             constraint = constraint.toString().uppercase()
 
-            val filteredModels = ArrayList<ModelChats>()
+            val filteredModels = ArrayList<Chats>()
 
             for (i in filterList.indices){
 
@@ -50,8 +50,8 @@ class FilterChats : Filter {
 
     override fun publishResults(constraint: CharSequence, results: FilterResults) {
 
-        adapterChats.chatsArrayList = results.values as ArrayList<ModelChats>
-        adapterChats.notifyDataSetChanged()
+        chatsAdapter.chatsArrayList = results.values as ArrayList<Chats>
+        chatsAdapter.notifyDataSetChanged()
     }
 
 }

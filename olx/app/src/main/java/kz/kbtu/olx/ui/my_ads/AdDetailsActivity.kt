@@ -17,10 +17,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.adapter.AdapterImageSlider
+import kz.kbtu.olx.adapter.ImageSliderAdapter
 import kz.kbtu.olx.databinding.ActivityAdDetailsBinding
-import kz.kbtu.olx.models.ModelAd
-import kz.kbtu.olx.models.ModelImageSlider
+import kz.kbtu.olx.models.Ad
+import kz.kbtu.olx.models.ImageSlider
 import kz.kbtu.olx.ui.chats.ChatActivity
 import kz.kbtu.olx.ui.sell.CreateAdActivity
 
@@ -29,7 +29,7 @@ class AdDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdDetailsBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var imageSliderArrayList: ArrayList<ModelImageSlider>
+    private lateinit var imageSliderArrayList: ArrayList<ImageSlider>
 
 
     private var adId = ""
@@ -110,7 +110,7 @@ class AdDetailsActivity : AppCompatActivity() {
 
         binding.recieptProfileCv.setOnClickListener {
 
-            val intent = Intent(this, AdSellerActivity::class.java)
+            val intent = Intent(this, SellerInfoActivity::class.java)
             intent.putExtra("sellerUid", sellerUid)
             startActivity(intent)
         }
@@ -207,10 +207,10 @@ class AdDetailsActivity : AppCompatActivity() {
 
                     try {
 
-                        val modelAd = snapshot.getValue(ModelAd::class.java)
-                        sellerUid = modelAd!!.uid
-                        adLatitude = modelAd.latitude
-                        adLonguitude = modelAd.longitude
+                        val ad = snapshot.getValue(Ad::class.java)
+                        sellerUid = ad!!.uid
+                        adLatitude = ad.latitude
+                        adLonguitude = ad.longitude
 
                         if (firebaseAuth.currentUser != null) {
 
@@ -231,13 +231,13 @@ class AdDetailsActivity : AppCompatActivity() {
                             }
                         }
 
-                        binding.titleTv.text = modelAd.title
-                        binding.descriptionTv.text = modelAd.description
-                        binding.priceTv.text = modelAd.price
-                        binding.categoryTv.text = modelAd.category
-                        binding.conditionTv.text = modelAd.condition
-                        binding.addressTv.text = modelAd.address
-                        binding.dateTv.text = Utils.formatTimestampDate(modelAd.timestamp)
+                        binding.titleTv.text = ad.title
+                        binding.descriptionTv.text = ad.description
+                        binding.priceTv.text = ad.price
+                        binding.categoryTv.text = ad.category
+                        binding.conditionTv.text = ad.condition
+                        binding.addressTv.text = ad.address
+                        binding.dateTv.text = Utils.formatTimestampDate(ad.timestamp)
 
                         loadSellerInfo()
 
@@ -331,7 +331,7 @@ class AdDetailsActivity : AppCompatActivity() {
 
                         try {
 
-                            val modelImageSlider = ds.getValue(ModelImageSlider::class.java)
+                            val modelImageSlider = ds.getValue(ImageSlider::class.java)
                             imageSliderArrayList.add(modelImageSlider!!)
                         } catch (e: Exception){
 
@@ -339,8 +339,8 @@ class AdDetailsActivity : AppCompatActivity() {
                         }
                     }
 
-                    val adapterImageSlider = AdapterImageSlider(this@AdDetailsActivity, imageSliderArrayList)
-                    binding.imageSliderVp.adapter = adapterImageSlider
+                    val imageSliderAdapter = ImageSliderAdapter(this@AdDetailsActivity, imageSliderArrayList)
+                    binding.imageSliderVp.adapter = imageSliderAdapter
                 }
 
                 override fun onCancelled(error: DatabaseError) {}

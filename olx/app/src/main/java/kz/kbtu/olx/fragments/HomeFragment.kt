@@ -20,11 +20,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.adapter.AdapterAd
-import kz.kbtu.olx.adapter.AdapterCategory
+import kz.kbtu.olx.adapter.AdAdapter
+import kz.kbtu.olx.adapter.CategoryAdapter
 import kz.kbtu.olx.databinding.FragmentHomeBinding
-import kz.kbtu.olx.models.ModelAd
-import kz.kbtu.olx.models.ModelCategory
+import kz.kbtu.olx.models.Ad
+import kz.kbtu.olx.models.Category
 import kz.kbtu.olx.ui.RvListenerCategory
 import kz.kbtu.olx.ui.sell.LocationPickerActivity
 
@@ -32,8 +32,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mContext: Context
-    private lateinit var adArrayList: ArrayList<ModelAd>
-    private lateinit var adapterAd: AdapterAd
+    private lateinit var adArrayList: ArrayList<Ad>
+    private lateinit var adapterAd: AdAdapter
     private lateinit var locationSp: SharedPreferences
 
     private var currentLatitude = 0.0
@@ -102,24 +102,24 @@ class HomeFragment : Fragment() {
 
     private fun loadCategories(){
 
-        val categoryArrayList = ArrayList<ModelCategory>()
+        val categoryArrayList = ArrayList<Category>()
 
         for (i in 0 until Utils.categories.size) {
 
-            val modelCategory = ModelCategory(Utils.categories[i], Utils.categoryIcons[i])
+            val modelCategory = Category(Utils.categories[i], Utils.categoryIcons[i])
 
             categoryArrayList.add(modelCategory)
         }
 
-        val adapterCategory = AdapterCategory(mContext, categoryArrayList, object: RvListenerCategory{
-            override fun onCategoryClick(modelCategory: ModelCategory) {
+        val categoryAdapter = CategoryAdapter(mContext, categoryArrayList, object: RvListenerCategory{
+            override fun onCategoryClick(modelCategory: Category) {
 
                 val selectedCategory = modelCategory.category
                 loadAds(selectedCategory)
             }
         })
 
-        binding.categoryRv.adapter = adapterCategory
+        binding.categoryRv.adapter = categoryAdapter
     }
 
 
@@ -168,26 +168,26 @@ class HomeFragment : Fragment() {
 
                     try {
 
-                        val modelAd = ds.getValue(ModelAd::class.java)
+                        val ad = ds.getValue(Ad::class.java)
 
                         val distance = calculateDistanceKm(
-                            modelAd?.latitude ?: 0.0,
-                            modelAd?.longitude ?: 0.0
+                            ad?.latitude ?: 0.0,
+                            ad?.longitude ?: 0.0
                         )
 
                         if (category == "All") {
 
                             if (distance <= MAX_DISTANCE_TO_LOAD_ADS_KM) {
 
-                                adArrayList.add(modelAd!!)
+                                adArrayList.add(ad!!)
                             }
                         } else {
 
-                            if (modelAd!!.category.equals(category)) {
+                            if (ad!!.category.equals(category)) {
 
                                 if (distance <= MAX_DISTANCE_TO_LOAD_ADS_KM) {
 
-                                    adArrayList.add(modelAd)
+                                    adArrayList.add(ad)
                                 }
                             }
 
@@ -198,7 +198,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                adapterAd = AdapterAd(mContext, adArrayList)
+                adapterAd = AdAdapter(mContext, adArrayList)
                 binding.adsRv.adapter = adapterAd
             }
 

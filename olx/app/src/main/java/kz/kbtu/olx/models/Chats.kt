@@ -1,6 +1,6 @@
 package kz.kbtu.olx.models
 
-class ModelChats {
+class Chats {
 
     var name: String = ""
     var profileImageUrl: String = ""

@@ -3,7 +3,6 @@ package kz.kbtu.olx.ui.my_ads
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,18 +15,18 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kz.kbtu.olx.adapter.AdapterAd
-import kz.kbtu.olx.databinding.FragmentMyAdsFavBinding
-import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.adapter.AdAdapter
+import kz.kbtu.olx.databinding.FragmentMyAdsAdsBinding
+import kz.kbtu.olx.models.Ad
 
 
-class MyAdsFavFragment : Fragment() {
+class MyAdsFragment : Fragment() {
 
-    private lateinit var binding: FragmentMyAdsFavBinding
+    private lateinit var binding: FragmentMyAdsAdsBinding
     private lateinit var mContext: Context
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var adArrayList: ArrayList<ModelAd>
-    private lateinit var adapterAd: AdapterAd
+    private lateinit var adArrayList: ArrayList<Ad>
+    private lateinit var adapterAd: AdAdapter
 
 
     override fun onAttach(context: Context) {
@@ -39,23 +38,21 @@ class MyAdsFavFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        binding = FragmentMyAdsFavBinding.inflate(inflater, container, false)
+        binding = FragmentMyAdsAdsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        loadFavAds()
+        loadAds()
 
         binding.searchEt.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -70,65 +67,48 @@ class MyAdsFavFragment : Fragment() {
                 }
             }
             override fun afterTextChanged(s: Editable?) {
-
             }
         })
     }
 
 
-    private fun loadFavAds() {
+    private fun loadAds() {
 
         adArrayList = ArrayList()
 
-        val favRef = FirebaseDatabase.getInstance().getReference("Users")
-        favRef.child(firebaseAuth.uid!!).child("Favorites")
+        val ref = FirebaseDatabase.getInstance().getReference("Ads")
+        ref.orderByChild("uid").equalTo(firebaseAuth.uid)
             .addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     adArrayList.clear()
 
-                    for (ds in snapshot.children) {
+                    try {
 
-                        val adId = "${ds.child("adId").value}"
+                        for (ds in snapshot.children) {
 
-                        val adRef = FirebaseDatabase.getInstance().getReference("Ads")
-                        adRef.child(adId)
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                            val ad = ds.getValue(Ad::class.java)
+                            adArrayList.add(ad!!)
+                        }
+                    } catch (e: Exception) {
 
-                                override fun onDataChange(snapshot: DataSnapshot) {
-
-                                    try {
-
-                                        val modelAd = snapshot.getValue(ModelAd::class.java)
-                                        adArrayList.add(modelAd!!)
-                                    } catch (e: Exception) {
-
-                                        Log.e("MY_ADS_FAV_FRAGMENT_TAG", "onDataChange: ", e)
-                                    }
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-
-                                    Log.d(TAG, "onCancelled: adArrayList: $adArrayList")
-                                }
-                            })
+                        Log.e(TAG, "onDataChange: ", e)
                     }
 
-                    Handler().postDelayed({
-
-                        adapterAd = AdapterAd(mContext, adArrayList)
-                        binding.adsRv.adapter = adapterAd
-                    }, 500)
+                    adapterAd = AdAdapter(mContext, adArrayList)
+                    binding.adsRv.adapter = adapterAd
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+
+                }
             })
     }
 
 
     private companion object {
 
-        private const val TAG = "MY_ADS_FAV_FRAGMENT_TAG"
+        private const val TAG = "MY_ADS_ADS_FRAGMENT"
     }
 }

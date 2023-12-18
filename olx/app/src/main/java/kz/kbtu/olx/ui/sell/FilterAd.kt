@@ -1,18 +1,17 @@
 package kz.kbtu.olx.ui.sell
 
-import android.util.Log
 import android.widget.Filter
 import androidx.recyclerview.widget.DiffUtil
-import kz.kbtu.olx.adapter.AdapterAd
+import kz.kbtu.olx.adapter.AdAdapter
 import kz.kbtu.olx.difUtils.AdDiffUtilCallback
-import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.models.Ad
 import java.util.Locale
 import kotlin.collections.ArrayList
 
 
 class FilterAd(
-    private val adapter: AdapterAd,
-    private val filterArrayList: ArrayList<ModelAd>
+    private val adapter: AdAdapter,
+    private val filterArrayList: ArrayList<Ad>
 ) : Filter() {
 
     override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -24,7 +23,7 @@ class FilterAd(
 
             constraint = constraint.toString().uppercase(Locale.getDefault())
 
-            val filteredModels = ArrayList<ModelAd>()
+            val filteredModels = ArrayList<Ad>()
 
             for (i in filterArrayList.indices) {
 
@@ -52,10 +51,10 @@ class FilterAd(
     override fun publishResults(constraint: CharSequence?, results: FilterResults) {
 
 //        val newAdList = results.values as ArrayList<ModelAd>
-        val adDiffUtilCallback = AdDiffUtilCallback(adapter.adArrayList, results.values as ArrayList<ModelAd>)
+        val adDiffUtilCallback = AdDiffUtilCallback(adapter.adArrayList, results.values as ArrayList<Ad>)
         val adDiffResult = DiffUtil.calculateDiff(adDiffUtilCallback)
 
-        adapter.adArrayList = results.values as ArrayList<ModelAd>
+        adapter.adArrayList = results.values as ArrayList<Ad>
         adDiffResult.dispatchUpdatesTo(adapter)
 //        adapter.notifyDataSetChanged()
     }

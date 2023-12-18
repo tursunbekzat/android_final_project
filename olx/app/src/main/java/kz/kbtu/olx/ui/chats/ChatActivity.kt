@@ -26,9 +26,9 @@ import com.android.volley.toolbox.Volley
 import com.google.firebase.storage.FirebaseStorage
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.adapter.AdapterChat
+import kz.kbtu.olx.adapter.ChatAdapter
 import kz.kbtu.olx.databinding.ActivityChatBinding
-import kz.kbtu.olx.models.ModelChat
+import kz.kbtu.olx.models.Chat
 import org.json.JSONObject
 
 class ChatActivity : AppCompatActivity() {
@@ -84,7 +84,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun loadMessages() {
 
-        val messagesArray = ArrayList<ModelChat>()
+        val messagesArray = ArrayList<Chat>()
 
         val ref = FirebaseDatabase.getInstance().getReference("Chats")
         ref.child(chatPath)
@@ -97,7 +97,7 @@ class ChatActivity : AppCompatActivity() {
 
                         try {
 
-                            val modelChat = ds.getValue(ModelChat::class.java)
+                            val modelChat = ds.getValue(Chat::class.java)
                             messagesArray.add(modelChat!!)
 
                         } catch (e: Exception){
@@ -106,8 +106,8 @@ class ChatActivity : AppCompatActivity() {
                         }
                     }
 
-                    val adapterChat = AdapterChat(this@ChatActivity, messagesArray)
-                    binding.chatRv.adapter = adapterChat
+                    val chatAdapter = ChatAdapter(this@ChatActivity, messagesArray)
+                    binding.chatRv.adapter = chatAdapter
                 }
 
                 override fun onCancelled(error: DatabaseError) {}

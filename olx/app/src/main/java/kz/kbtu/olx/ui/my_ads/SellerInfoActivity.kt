@@ -10,11 +10,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.adapter.AdapterAd
+import kz.kbtu.olx.adapter.AdAdapter
 import kz.kbtu.olx.databinding.ActivityAdSellerBinding
-import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.models.Ad
 
-class AdSellerActivity : AppCompatActivity() {
+class SellerInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdSellerBinding
 
@@ -58,7 +58,7 @@ class AdSellerActivity : AppCompatActivity() {
 
                     try {
 
-                        Glide.with(this@AdSellerActivity)
+                        Glide.with(this@SellerInfoActivity)
                             .load(profileImageUrl)
                             .placeholder(R.drawable.ic_person_white)
                             .into(binding.sellerProfileIv)
@@ -79,7 +79,7 @@ class AdSellerActivity : AppCompatActivity() {
 
     private fun loadAds(){
 
-        val adArrayList: ArrayList<ModelAd> = ArrayList()
+        val adArrayList: ArrayList<Ad> = ArrayList()
 
         val ref = FirebaseDatabase.getInstance().getReference("Ads")
         ref.orderByChild("uid").equalTo(sellerUid)
@@ -92,15 +92,15 @@ class AdSellerActivity : AppCompatActivity() {
 
                         try {
 
-                            val modelAd = ds.getValue(ModelAd::class.java)
-                            adArrayList.add(modelAd!!)
+                            val ad = ds.getValue(Ad::class.java)
+                            adArrayList.add(ad!!)
                         } catch (e: Exception){
 
                             Log.e(TAG, "onDataChange: ", e)
                         }
                     }
 
-                    val adapterAd = AdapterAd(this@AdSellerActivity, adArrayList)
+                    val adapterAd = AdAdapter(this@SellerInfoActivity, adArrayList)
                     binding.adsRv.adapter = adapterAd
 
                     val adsCount = adArrayList.size

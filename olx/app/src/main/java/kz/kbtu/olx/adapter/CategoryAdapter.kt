@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kz.kbtu.olx.databinding.RowCategoryBinding
-import kz.kbtu.olx.models.ModelCategory
+import kz.kbtu.olx.models.Category
 import kz.kbtu.olx.ui.RvListenerCategory
 import java.util.Random
 
-class AdapterCategory (
+class CategoryAdapter (
 
     private val context: Context,
-    private val categoryArrayList: ArrayList<ModelCategory>,
+    private val categoryArrayList: ArrayList<Category>,
     private val rvListenerCategory: RvListenerCategory
-) : Adapter<AdapterCategory.HolderModelCategory>() {
+) : Adapter<CategoryAdapter.HolderModelCategory>() {
 
     private lateinit var binding: RowCategoryBinding
 

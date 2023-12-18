@@ -12,15 +12,15 @@ import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import kz.kbtu.olx.R
 import kz.kbtu.olx.databinding.RowImageSliderBinding
-import kz.kbtu.olx.models.ModelImageSlider
+import kz.kbtu.olx.models.ImageSlider
 
-class AdapterImageSlider: Adapter<AdapterImageSlider.ImageSliderHolder> {
+class ImageSliderAdapter: Adapter<ImageSliderAdapter.ImageSliderHolder> {
 
     private lateinit var binding: RowImageSliderBinding
     private var context: Context
-    private var imageArrayList: ArrayList<ModelImageSlider>
+    private var imageArrayList: ArrayList<ImageSlider>
 
-    constructor(context: Context, imageArrayList: ArrayList<ModelImageSlider>) {
+    constructor(context: Context, imageArrayList: ArrayList<ImageSlider>) {
         this.context = context
         this.imageArrayList = imageArrayList
     }

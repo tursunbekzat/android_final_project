@@ -21,13 +21,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.google.firebase.storage.FirebaseStorage
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
-import kz.kbtu.olx.adapter.AdapterImagePicked
+import kz.kbtu.olx.adapter.ImagePickedAdapter
 import kz.kbtu.olx.databinding.ActivityCreateAdBinding
-import kz.kbtu.olx.models.ModelImagePicked
+import kz.kbtu.olx.models.ImagePicked
 
 
 class CreateAdActivity : AppCompatActivity() {
@@ -35,8 +34,8 @@ class CreateAdActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAdBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
-    private lateinit var adapterImagePicked: AdapterImagePicked
-    private lateinit var imagePickedArrayList: ArrayList<ModelImagePicked>
+    private lateinit var imagePickedAdapter: ImagePickedAdapter
+    private lateinit var imagePickedArrayList: ArrayList<ImagePicked>
 
 
     private var imageUri: Uri? = null
@@ -131,8 +130,8 @@ class CreateAdActivity : AppCompatActivity() {
         }
     private fun loadImages(){
 
-        adapterImagePicked = AdapterImagePicked(this, imagePickedArrayList, adIdForEditing)
-        binding.imagesRv.adapter = adapterImagePicked
+        imagePickedAdapter = ImagePickedAdapter(this, imagePickedArrayList, adIdForEditing)
+        binding.imagesRv.adapter = imagePickedAdapter
     }
 
 
@@ -227,7 +226,7 @@ class CreateAdActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
 
                 val timestamp = "${Utils.getTimestamp()}"
-                val modelImagePicked = ModelImagePicked(timestamp, imageUri, null, false)
+                val modelImagePicked = ImagePicked(timestamp, imageUri, null, false)
                 imagePickedArrayList.add(modelImagePicked)
 
                 loadImages()
@@ -255,7 +254,7 @@ class CreateAdActivity : AppCompatActivity() {
                 imageUri = data!!.data
 
                 val timestamp = "${Utils.getTimestamp()}"
-                val modelImagePicked = ModelImagePicked(timestamp, imageUri, null, false)
+                val modelImagePicked = ImagePicked(timestamp, imageUri, null, false)
 
                 imagePickedArrayList.add(modelImagePicked)
 
@@ -486,7 +485,7 @@ class CreateAdActivity : AppCompatActivity() {
                                 val id = "${ds.child("id").value}"
                                 val imageUrl = "${ds.child("imageUrl").value}"
 
-                                val modelImagePicked = ModelImagePicked(id, null, imageUrl, true)
+                                val modelImagePicked = ImagePicked(id, null, imageUrl, true)
                                 imagePickedArrayList.add(modelImagePicked)
                             }
 

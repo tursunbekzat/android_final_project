@@ -3,13 +3,13 @@ package kz.kbtu.olx.difUtils
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
-import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.models.Ad
 
 
 class AdDiffUtilCallback(
 
-    private var oldList: ArrayList<ModelAd>?,
-    private var newList: ArrayList<ModelAd>?
+    private var oldList: ArrayList<Ad>?,
+    private var newList: ArrayList<Ad>?
 ): DiffUtil.Callback() {
     
     override fun getOldListSize(): Int {
@@ -28,8 +28,8 @@ class AdDiffUtilCallback(
 
         Log.d(TAG, "areItemsTheSame: ")
         
-        val oldProduct: ModelAd = oldList!![oldItemPosition]
-        val newProduct: ModelAd = newList!![newItemPosition]
+        val oldProduct: Ad = oldList!![oldItemPosition]
+        val newProduct: Ad = newList!![newItemPosition]
         return oldProduct.id === newProduct.id
     }
 
@@ -38,8 +38,8 @@ class AdDiffUtilCallback(
 
         Log.d(TAG, "areContentsTheSame: ")
         
-        val oldProduct: ModelAd = oldList!![oldItemPosition]
-        val newProduct: ModelAd = newList!![newItemPosition]
+        val oldProduct: Ad = oldList!![oldItemPosition]
+        val newProduct: Ad = newList!![newItemPosition]
         return (oldProduct.uid == newProduct.uid)
     }
 

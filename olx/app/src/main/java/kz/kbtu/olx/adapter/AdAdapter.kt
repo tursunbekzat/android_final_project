@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.RowAdBinding
-import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.models.Ad
 import kz.kbtu.olx.ui.my_ads.AdDetailsActivity
 import kz.kbtu.olx.ui.sell.FilterAd
 
-class AdapterAd(
+class AdAdapter(
     private var context: Context,
-    var adArrayList: ArrayList<ModelAd>
-) : Adapter<AdapterAd.AdViewHolder>(), Filterable{
+    var adArrayList: ArrayList<Ad>
+) : Adapter<AdAdapter.AdViewHolder>(), Filterable{
 
 
     private lateinit var binding: RowAdBinding
@@ -27,7 +27,7 @@ class AdapterAd(
 
     //    var adArrayList: ArrayList<ModelAd>
     private var firebaseAuth: FirebaseAuth
-    private var filteredList: ArrayList<ModelAd> = adArrayList
+    private var filteredList: ArrayList<Ad> = adArrayList
     private var filter: FilterAd? = null
 
     init {

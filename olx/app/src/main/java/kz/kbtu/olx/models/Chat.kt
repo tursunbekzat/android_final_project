@@ -1,6 +1,6 @@
 package kz.kbtu.olx.models
 
-class ModelChat {
+class Chat {
 
     var messageId: String = ""
     var message: String = ""

@@ -19,23 +19,23 @@ import com.google.firebase.database.ValueEventListener
 import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.RowChatsBinding
-import kz.kbtu.olx.models.ModelChats
+import kz.kbtu.olx.models.Chats
 import kz.kbtu.olx.ui.chats.FilterChats
 import kz.kbtu.olx.ui.chats.ChatActivity
 
-class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
+class ChatsAdapter : Adapter<ChatsAdapter.ChatsViewHolder>, Filterable{
 
     private lateinit var binding: RowChatsBinding
 
     private var firebaseAuth: FirebaseAuth
     private var context: Context
-    private var filterList: ArrayList<ModelChats>
+    private var filterList: ArrayList<Chats>
     private var filter: FilterChats? = null
     private var myUid = ""
-    var chatsArrayList: ArrayList<ModelChats>
+    var chatsArrayList: ArrayList<Chats>
 
 
-    constructor(firebaseAuth: FirebaseAuth, context: Context, chatsArrayList: ArrayList<ModelChats>) {
+    constructor(firebaseAuth: FirebaseAuth, context: Context, chatsArrayList: ArrayList<Chats>) {
 
         this.firebaseAuth = firebaseAuth
         this.context = context
@@ -81,7 +81,7 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
         }
     }
 
-    private fun loadLastMessage(modelChats: ModelChats, holder: AdapterChats.ChatsViewHolder) {
+    private fun loadLastMessage(modelChats: Chats, holder: ChatsAdapter.ChatsViewHolder) {
 
         val chatKey = modelChats.chatKey
 
@@ -125,7 +125,7 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
 
     }
 
-    private fun loadRecepitUserInfo(modelChats: ModelChats, holder: AdapterChats.ChatsViewHolder) {
+    private fun loadRecepitUserInfo(modelChats: Chats, holder: ChatsAdapter.ChatsViewHolder) {
 
         val fromUid = modelChats.fromUid
         val toUid = modelChats.toUid

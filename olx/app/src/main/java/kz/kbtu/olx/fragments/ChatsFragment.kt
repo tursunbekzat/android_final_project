@@ -10,23 +10,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kz.kbtu.olx.R
-import kz.kbtu.olx.adapter.AdapterChats
+import kz.kbtu.olx.adapter.ChatsAdapter
 import kz.kbtu.olx.databinding.FragmentChatsBinding
-import kz.kbtu.olx.models.ModelChats
+import kz.kbtu.olx.models.Chats
 
 class ChatsFragment : Fragment() {
 
     private lateinit var binding: FragmentChatsBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var chatsArrayList: ArrayList<ModelChats>
-    private lateinit var adapterChats: AdapterChats
+    private lateinit var chatsArrayList: ArrayList<Chats>
+    private lateinit var chatsAdapter: ChatsAdapter
     private lateinit var context: Context
 
     private var myUid = ""
@@ -66,7 +64,7 @@ class ChatsFragment : Fragment() {
 
                     val query = s.toString()
 
-                    adapterChats.filter.filter(query)
+                    chatsAdapter.filter.filter(query)
                 } catch (e: Exception) {
 
                     Log.e(TAG, "onTextChanged: ", e)
@@ -96,15 +94,15 @@ class ChatsFragment : Fragment() {
 
                     if (chatKey.contains(myUid)){
 
-                        val modelChats = ModelChats()
+                        val modelChats = Chats()
                         modelChats.chatKey = chatKey
 
                         chatsArrayList.add(modelChats)
                     }
                 }
 
-                adapterChats = AdapterChats(firebaseAuth, context, chatsArrayList)
-                binding.chatsRl.adapter = adapterChats
+                chatsAdapter = ChatsAdapter(firebaseAuth, context, chatsArrayList)
+                binding.chatsRl.adapter = chatsAdapter
 
                 sort()
             }
@@ -117,12 +115,12 @@ class ChatsFragment : Fragment() {
 
         Handler().postDelayed({
 
-            chatsArrayList.sortWith{model1: ModelChats, model2: ModelChats ->
+            chatsArrayList.sortWith{ model1: Chats, model2: Chats ->
 
                 model2.timestamp.compareTo(model1.timestamp)
             }
 
-            adapterChats.notifyDataSetChanged()
+            chatsAdapter.notifyDataSetChanged()
         }, 1000)
     }
 

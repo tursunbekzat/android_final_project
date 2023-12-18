@@ -1,6 +1,6 @@
 package kz.kbtu.olx.models
 
-class ModelImageSlider {
+class ImageSlider {
 
     var id = ""
     var imageUrl = ""
