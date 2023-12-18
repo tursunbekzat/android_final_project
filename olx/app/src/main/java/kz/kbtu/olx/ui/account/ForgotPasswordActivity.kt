@@ -31,10 +31,12 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
 
         binding.toolbarBackBtn.setOnClickListener {
+
             onBackPressed()
         }
 
         binding.submitBtn.setOnClickListener {
+
             validateData()
         }
     }
@@ -43,8 +45,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private fun validateData(){
 
         email = binding.emailEt.text.toString().trim()
-
-        Log.d(TAG, "validateData: email: $email")
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
 
@@ -58,8 +58,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
 
     private fun sendPasswordRecoveryInstructions() {
-
-        Log.d(TAG, "sendPasswordRecoveryInstructions: ")
 
         progressDialog.setMessage("Sending password reset instructions to $email")
         progressDialog.show()

@@ -48,37 +48,27 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        Log.d(TAG, "onCreate: started")
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate: continue1")
         binding = ActivityLocationPickerBinding.inflate(layoutInflater)
-        Log.d(TAG, "onCreate: continue2")
         setContentView(binding.root)
 
         binding.doneLl.visibility = View.GONE
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        Log.d(TAG, "onCreate: mapFragment")
 
         Places.initialize(this, getString(R.string.maps_api_key))
-        Log.d(TAG, "onCreate: Places.initialize")
 
         mPlacesClient = Places.createClient(this)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        Log.d(TAG, "onCreate: mPlacesClient, mFusedLocationProviderClient")
 
         val autocompleteSupportMapFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
-        Log.d(TAG, "onCreate: autocompleteSupportMapFragment")
 
         val placeList = arrayOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
-        Log.d(TAG, "onCreate: placeList")
 
         autocompleteSupportMapFragment.setPlaceFields(listOf(*placeList))
         autocompleteSupportMapFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener{
             override fun onPlaceSelected(place: Place) {
-
-                Log.d(TAG, "onPlaceSelected: ")
 
                 val id = place.id
                 val name = place.name
@@ -87,22 +77,17 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
                 selectedLongitude = latLng?.longitude
                 selectedAddress = place.address ?: ""
 
-                Log.d(TAG, "onPlaceSelected: id: $id")
-                Log.d(TAG, "onPlaceSelected: name: $name")
-                Log.d(TAG, "onPlaceSelected: latLng: $latLng")
-                Log.d(TAG, "onPlaceSelected: address: $selectedAddress")
-                Log.d(TAG, "onPlaceSelected: latitude: $selectedLatitude")
-                Log.d(TAG, "onPlaceSelected: longitude: $selectedLongitude")
-
-                if (name != null) {
-                    addMarker(latLng, name, selectedAddress)
-                }
+                if (name != null) addMarker(latLng, name, selectedAddress)
             }
 
-            override fun onError(status: Status) {
-
-            }
+            override fun onError(status: Status) {}
         })
+
+        setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
 
         binding.toolbarBackBtn.setOnClickListener {
 
@@ -129,16 +114,10 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
-
     }
-
 
     @SuppressLint("MissingPermission")
     private fun detectAndShowDeviceLocationMap(){
-
-        Log.d(TAG, "detectAndShowDeviceLocationMap: ")
-
-
 
         try {
 
@@ -150,9 +129,6 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
                     mLastKnownLocation = location
                     selectedLatitude = location.latitude
                     selectedLongitude = location.longitude
-
-                    Log.d(TAG, "detectAndShowDeviceLocationMap: selectedLatitude: $selectedLatitude")
-                    Log.d(TAG, "detectAndShowDeviceLocationMap: selectedLongitude: $selectedLongitude")
 
                     val latLng = LatLng(selectedLatitude!!, selectedLongitude!!)
                     mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM.toFloat()))
@@ -172,8 +148,6 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     private fun isGpsEnabled(): Boolean {
-
-        Log.d(TAG, "isGpsEnabled: ")
 
         val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var gpsEnabled = false
@@ -202,8 +176,6 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     private val requestLocationPermissions:ActivityResultLauncher<String> =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
 
-            Log.d(TAG, "requestLocationPermissions: isGranted: $isGranted")
-
             if (isGranted) {
 
                 mMap!!.isMyLocationEnabled = true
@@ -217,34 +189,27 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun pickCurrentPlace() {
 
-        Log.d(TAG, "pickCurrentPlace: ")
-
-        if (mMap == null) {
-            return
-        }
+        if (mMap == null) return
 
         detectAndShowDeviceLocationMap()
     }
 
     private fun addMarker(latLng: LatLng?, title: String, selectedAddress: String) {
 
-        Log.d(TAG, "addMarker: latitude: ${latLng!!.latitude}")
-        Log.d(TAG, "addMarker: longitude: ${latLng.longitude}")
-        Log.d(TAG, "addMarker: title: $title")
-        Log.d(TAG, "addMarker: address: $selectedAddress")
-
         mMap!!.clear()
 
         try {
 
             val markerOptions = MarkerOptions()
-            markerOptions.position(latLng)
+            if (latLng != null) {
+                markerOptions.position(latLng)
+            }
             markerOptions.title(title)
             markerOptions.snippet(selectedAddress)
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
             mMap!!.addMarker(markerOptions)
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM.toFloat()))
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, DEFAULT_ZOOM.toFloat()))
 
             binding.doneLl.visibility = View.VISIBLE
             binding.selectedPlaceTv.text = selectedAddress
@@ -257,7 +222,6 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
 
-        Log.d(TAG, "onMapReady: ")
         mMap = googleMap
 
         requestLocationPermissions.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -266,17 +230,12 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
             selectedLatitude = latLng.latitude
             selectedLongitude = latLng.longitude
-            Log.d(TAG, "onMapReady: selectedLatitude: $selectedLatitude")
-            Log.d(TAG, "onMapReady: selectedLongitude: $selectedLongitude")
-
             addressFromLatLng(latLng)
         }
     }
 
 
     private fun addressFromLatLng(latLng: LatLng) {
-
-        Log.d(TAG, "addressFromLatLng: ")
 
         val geocoder = Geocoder(this)
 

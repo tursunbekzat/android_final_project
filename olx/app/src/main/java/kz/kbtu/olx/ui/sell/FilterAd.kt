@@ -51,14 +51,9 @@ class FilterAd(
 
     override fun publishResults(constraint: CharSequence?, results: FilterResults) {
 
-        Log.d(TAG, "publishResults: ")
-
 //        val newAdList = results.values as ArrayList<ModelAd>
         val adDiffUtilCallback = AdDiffUtilCallback(adapter.adArrayList, results.values as ArrayList<ModelAd>)
         val adDiffResult = DiffUtil.calculateDiff(adDiffUtilCallback)
-
-        Log.d(TAG, "publishResults: adDiffUtilCallback: $adDiffUtilCallback")
-        Log.d(TAG, "publishResults: adDiffResult: $adDiffResult")
 
         adapter.adArrayList = results.values as ArrayList<ModelAd>
         adDiffResult.dispatchUpdatesTo(adapter)

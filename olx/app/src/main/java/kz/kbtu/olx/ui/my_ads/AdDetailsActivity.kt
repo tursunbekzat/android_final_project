@@ -40,7 +40,6 @@ class AdDetailsActivity : AppCompatActivity() {
     private var favorite = false
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -173,8 +172,6 @@ class AdDetailsActivity : AppCompatActivity() {
         alertDialogBuilder.setTitle("Mark as sold")
             .setMessage("Are you sure to mark this Ad as sold?")
             .setPositiveButton("SOLD"){ dialog, which ->
-
-                Log.d(TAG, "showMarkAsSoldDialog: SOLD clicked")
 
                 val hashMap = HashMap<String, Any>()
                 hashMap["status"] = "${Utils.ADD_STATUS_SOLD}"

@@ -36,18 +36,37 @@ class MainActivity : AppCompatActivity() {
 
         if (firebaseAuth.currentUser == null){
 
-            Log.d(TAG, "firebase is null")
             startLoginOptions()
         } else {
 
-            Log.d(TAG, "firebase is not null ${firebaseAuth.currentUser}")
-
             updateFcmToken()
-
             askNotificationPermission()
         }
 
         showHomeFragment()
+
+        navigationSelected()
+
+        binding.sellFav.setOnClickListener {
+
+            if (firebaseAuth.currentUser == null) {
+
+                Utils.toast(this, "Login Required")
+                startLoginOptions()
+            }
+            else {
+
+
+                val intent = Intent(this, CreateAdActivity::class.java)
+                intent.putExtra("isEditMode", false)
+                startActivity(intent)
+            }
+        }
+
+    }
+
+
+    private fun navigationSelected(){
 
         binding.bottomNav.setOnItemSelectedListener { item->
 
@@ -68,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     else {
 
                         showChatsFragment()
-                         true
+                        true
                     }
                 }
                 R.id.menu_my_ads -> {
@@ -105,23 +124,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        binding.sellFav.setOnClickListener {
-
-            if (firebaseAuth.currentUser == null) {
-
-                Utils.toast(this, "Login Required")
-                startLoginOptions()
-            }
-            else {
-
-
-                val intent = Intent(this, CreateAdActivity::class.java)
-                intent.putExtra("isEditMode", false)
-                startActivity(intent)
-            }
-        }
-
     }
     private fun showHomeFragment(){
 
@@ -133,6 +135,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+
     private fun showChatsFragment(){
 
         binding.toolbarTitleTv.text = "Chats"
@@ -142,6 +145,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(binding.fragmentsFL.id, fragment, "ChatsFragment")
         fragmentTransaction.commit()
     }
+
 
     private fun showMyAdsFragment(){
 
@@ -153,6 +157,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+
     private fun showAccountFragment(){
 
         binding.toolbarTitleTv.text = "Account"
@@ -163,6 +168,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+
     private fun startLoginOptions(){
 
         startActivity(Intent(this, LoginOptionsActivity::class.java))
@@ -171,14 +177,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateFcmToken(){
 
-        Log.d(TAG, "updateFcmToken: ")
-
         val myUid = "${firebaseAuth.uid}"
 
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener { fcmToken ->
-
-                Log.d(TAG, "updateFcmToken: fcmToken: $fcmToken")
 
                 val hashMap = HashMap<String, Any>()
                 hashMap["fcmToken"] = "$fcmToken"
@@ -204,8 +206,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun askNotificationPermission(){
 
-        Log.d(TAG, "askNotificationPermission: ")
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
 
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED){
@@ -222,6 +222,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "requestNotificationPermission: isGranted: $isGranted")
     }
+
 
     private companion object {
 

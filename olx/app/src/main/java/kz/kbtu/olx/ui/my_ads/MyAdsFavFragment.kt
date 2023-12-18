@@ -78,8 +78,6 @@ class MyAdsFavFragment : Fragment() {
 
     private fun loadFavAds() {
 
-        Log.d(TAG, "loadFavAds: ")
-
         adArrayList = ArrayList()
 
         val favRef = FirebaseDatabase.getInstance().getReference("Users")
@@ -93,7 +91,6 @@ class MyAdsFavFragment : Fragment() {
                     for (ds in snapshot.children) {
 
                         val adId = "${ds.child("adId").value}"
-                        Log.d("MY_ADS_FAV_FRAGMENT_TAG", "onDataChange: adId: $adId")
 
                         val adRef = FirebaseDatabase.getInstance().getReference("Ads")
                         adRef.child(adId)
@@ -105,7 +102,6 @@ class MyAdsFavFragment : Fragment() {
 
                                         val modelAd = snapshot.getValue(ModelAd::class.java)
                                         adArrayList.add(modelAd!!)
-                                        Log.d("MY_ADS_FAV_FRAGMENT_TAG", "adRef: $adapterAd")
                                     } catch (e: Exception) {
 
                                         Log.e("MY_ADS_FAV_FRAGMENT_TAG", "onDataChange: ", e)
@@ -115,7 +111,6 @@ class MyAdsFavFragment : Fragment() {
                                 override fun onCancelled(error: DatabaseError) {
 
                                     Log.d(TAG, "onCancelled: adArrayList: $adArrayList")
-
                                 }
                             })
                     }
@@ -127,9 +122,7 @@ class MyAdsFavFragment : Fragment() {
                     }, 500)
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-
-                }
+                override fun onCancelled(error: DatabaseError) {}
             })
     }
 

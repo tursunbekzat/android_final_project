@@ -232,6 +232,7 @@ class CreateAdActivity : AppCompatActivity() {
 
                 loadImages()
             } else {
+
                 Utils.toast(this, "Canceled...!")
             }
 
@@ -493,13 +494,13 @@ class CreateAdActivity : AppCompatActivity() {
 
                                 loadImages()
                             } catch (e: Exception){
+
                                 Log.e(TAG, "onDataChange: LoadImages Failed due to", e)
                             }
                         }
 
                         override fun onCancelled(error: DatabaseError) {}
                     })
-
                 }
 
                 override fun onCancelled(error: DatabaseError) {}

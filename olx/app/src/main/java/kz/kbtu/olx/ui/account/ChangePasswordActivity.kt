@@ -52,10 +52,6 @@ class ChangePasswordActivity : AppCompatActivity() {
         newPassword = binding.newPasswordEt.text.toString().trim()
         confirmPassword = binding.confirmPasswordEt.text.toString().trim()
 
-        Log.d(TAG, "validateData: currentPassword: $currentPassword")
-        Log.d(TAG, "validateData: newPassword: $newPassword")
-        Log.d(TAG, "validateData: confirmPassword: $confirmPassword")
-
         if (currentPassword.isEmpty()) {
 
             binding.currentPasswordEt.error = "Enter Current Password"
@@ -80,7 +76,6 @@ class ChangePasswordActivity : AppCompatActivity() {
 
     private fun authenticateUserForPassword(){
 
-        Log.d(TAG, "authenticateUserForPassword: ")
         progressDialog.setMessage("Authentication User")
         progressDialog.show()
 
@@ -88,7 +83,6 @@ class ChangePasswordActivity : AppCompatActivity() {
         firebaseUser.reauthenticate(authCredential)
             .addOnSuccessListener {
 
-                Log.d(TAG, "authenticateUserForPassword: Authentication Success")
                 updatePassword()
             }
             .addOnFailureListener { e ->
@@ -107,7 +101,6 @@ class ChangePasswordActivity : AppCompatActivity() {
         firebaseUser.updatePassword(newPassword)
             .addOnSuccessListener {
 
-                Log.d(TAG, "updatePassword: Password updated...")
                 progressDialog.dismiss()
                 Utils.toast(this, "Password updated...")
             }

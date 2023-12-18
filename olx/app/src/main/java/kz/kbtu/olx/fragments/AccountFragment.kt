@@ -36,15 +36,16 @@ class AccountFragment : Fragment() {
 
 
     override fun onAttach(context: Context) {
+
         mContext = context
         super.onAttach(context)
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +59,12 @@ class AccountFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         loadMyInfo()
+
+        setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
 
         binding.logoutCv.setOnClickListener {
 
@@ -98,9 +105,7 @@ class AccountFragment : Fragment() {
         ref.child("${firebaseAuth.uid}")
             .addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val dob = "${snapshot.child("dob").value}"
-                    val email = "${snapshot.child("email").value}"
-                    val name = "${snapshot.child("name").value}"
+
                     val phoneCode = "${snapshot.child("phoneCode").value}"
                     val phoneNumber = "${snapshot.child("phoneNumber").value}"
                     val profileImageUrl = "${snapshot.child("profileImageUrl").value}"
@@ -113,17 +118,16 @@ class AccountFragment : Fragment() {
                         timestamp = "0"
                     }
 
-                    val formattedDate = Utils.formatTimestampDate(timestamp.toLong())
-
-                    binding.emailTv.text = email
-                    binding.nameTv.text = name
-                    binding.dobTv.text = dob
+                    binding.emailTv.text = "${snapshot.child("email").value}"
+                    binding.nameTv.text = "${snapshot.child("name").value}"
+                    binding.dobTv.text = "${snapshot.child("dob").value}"
                     binding.phoneTv.text = phone
-                    binding.memberSinceTv.text = formattedDate
+                    binding.memberSinceTv.text = Utils.formatTimestampDate(timestamp.toLong())
 
                     if (userType == "Email"){
 
                         val isVerified = firebaseAuth.currentUser!!.isEmailVerified
+
                         if (isVerified){
 
                             binding.verifyAccountCv.visibility = View.GONE
@@ -140,11 +144,13 @@ class AccountFragment : Fragment() {
                     }
 
                     try {
+
                         Glide.with(mContext)
                             .load(profileImageUrl)
                             .placeholder(R.drawable.ic_person_white)
                             .into(binding.profileIv)
                     } catch (e: Exception) {
+
                         Log.e(TAG, "onDataChange: ", e)
                     }
                 }
@@ -184,6 +190,7 @@ class AccountFragment : Fragment() {
         ref.child("${firebaseAuth.uid}")
             .addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
+
                     val profileImageUrl = "${snapshot.child("profileImageUrl").value}"
 
                     try {
@@ -211,11 +218,9 @@ class AccountFragment : Fragment() {
 
         dialog.create()
 
-        if (dialog != null) {
-
-            dialog.show()
-        }
+        if (dialog != null) dialog.show()
     }
+
 
     private companion object{
 

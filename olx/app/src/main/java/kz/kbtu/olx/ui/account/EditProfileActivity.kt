@@ -56,6 +56,12 @@ class EditProfileActivity : AppCompatActivity() {
 
         loadMyInfo()
 
+        setOnClickListener()
+    }
+
+
+    private fun setOnClickListener(){
+
         binding.toolbarBackBtn.setOnClickListener {
 
             onBackPressed()
@@ -70,9 +76,7 @@ class EditProfileActivity : AppCompatActivity() {
 
             validateData()
         }
-
     }
-
 
     private fun validateData(){
 
@@ -93,8 +97,6 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     private fun updateProfileDb(uploadedImageUrl: String?) {
-
-        Log.d(TAG, "updateProfileDb: uploadedImageUrl: $uploadedImageUrl")
 
         progressDialog.setMessage("Updating user info")
         progressDialog.show()
@@ -121,22 +123,21 @@ class EditProfileActivity : AppCompatActivity() {
         reference.child(firebaseAuth.uid!!)
             .updateChildren(hashMap)
             .addOnSuccessListener {
-                Log.d(TAG, "updateUserInfo: Updated...")
+
                 progressDialog.dismiss()
                 Utils.toast(this, "Updated...")
                 imageUri = null
             }
             .addOnFailureListener { e ->
+
                 Log.e(TAG, "updateUserInfo: ", e)
                 progressDialog.dismiss()
                 Utils.toast(this, "Failed to update user info due to ${e.message}")
             }
-//        onBackPressed()
     }
 
 
     private fun uploadProfileImageStorage() {
-        Log.d(TAG, "uploadProfileImageStorage: ")
 
         progressDialog.setMessage("Uploading user profile image")
         progressDialog.show()
@@ -148,12 +149,10 @@ class EditProfileActivity : AppCompatActivity() {
             .addOnProgressListener { snapshot ->
 
                 val progress = 100.0*snapshot.bytesTransferred / snapshot.totalByteCount
-                Log.d(TAG, "uploadProfileImageStorage: progress: $progress")
                 progressDialog.setMessage("Uploading profile image. \nProgress: ${progress.toInt()}")
             }
             .addOnSuccessListener { taskSnapshot ->
 
-                Log.d(TAG, "uploadProfileImageStorage: Image uploaded...")
                 val uriTask = taskSnapshot.storage.downloadUrl
                 while (!uriTask.isSuccessful);
                 val uploadedImageUrl = uriTask.result.toString()
@@ -173,7 +172,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     private fun loadMyInfo() {
-        Log.d(TAG, "loadMyInfo: ")
+
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child("${firebaseAuth.uid}")
             .addValueEventListener(object: ValueEventListener {
@@ -194,6 +193,7 @@ class EditProfileActivity : AppCompatActivity() {
                         binding.emailTil.isEnabled = false
                         binding.emailEt.isEnabled = false
                     } else {
+
                         binding.phoneNumberTil.isEnabled = false
                         binding.phoneNumberEt.isEnabled = false
                         binding.phoneCodeTil.isEnabled = false
@@ -205,26 +205,27 @@ class EditProfileActivity : AppCompatActivity() {
                     binding.phoneNumberEt.setText(phoneNumber)
 
                     try {
+
                         val phoneCodeInt = phoneCode.replace("+", "").toInt()
                         binding.phoneCodeTil.setCountryForPhoneCode(phoneCodeInt)
-
                     } catch (e: Exception) {
+
                         Log.e(TAG, "onDataChange: ", e)
                     }
 
                     try {
+
                         Glide.with(this@EditProfileActivity)
                             .load(profileImageUrl)
                             .placeholder(R.drawable.ic_person_white)
                             .into(binding.profileIv)
                     } catch (e: Exception) {
+
                         Log.e(TAG, "onDataChange: ", e)
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-
-                }
+                override fun onCancelled(error: DatabaseError) {}
             })
     }
 
@@ -244,7 +245,6 @@ class EditProfileActivity : AppCompatActivity() {
 
             if (itemId == 1){
 
-                Log.d(TAG, "imagePickDialog: Camera Clicked, check if camera permission(s) granted or not")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
                     requestCameraPermissions.launch(arrayOf(Manifest.permission.CAMERA))
@@ -255,7 +255,6 @@ class EditProfileActivity : AppCompatActivity() {
 
             } else if (itemId == 2){
 
-                Log.d(TAG, "imagePickDialog: Gallery Clicked, check if storage permission(s) granted or not")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
                     pickImageGallery()
@@ -272,23 +271,22 @@ class EditProfileActivity : AppCompatActivity() {
     private val requestCameraPermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ result ->
 
-            Log.d(TAG, "requestCameraPermissions: Result: $result")
             var areAllGranted = true
             for (isGranted in result.values) {
+
                 areAllGranted = areAllGranted && isGranted
             }
             if (areAllGranted) {
-                Log.d(TAG, "requestCameraPermissions: All Granted e.g. Camera, Storage")
+
                 pickImageCamera()
             } else {
-                Log.d(TAG, "requestCameraPermissions: All or either one is denied...")
+
                 Utils.toast(this, "Camera or Storage or both permissions denied")
             }
     }
 
 
     private fun pickImageCamera() {
-        Log.d(TAG, "pickImageCamera: ")
 
         val contentValues = ContentValues()
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_image_title")
@@ -306,17 +304,19 @@ class EditProfileActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
 
             if (result.resultCode == Activity.RESULT_OK) {
-                Log.d(TAG, "cameraActivityResultLauncher: Image Captured: imageUri: $imageUri")
 
                 try {
+
                     Glide.with(this)
                         .load(imageUri)
                         .placeholder(R.drawable.ic_person_white)
                         .into(binding.profileIv)
                 } catch (e: Exception) {
+
                     Log.e(TAG, "cameraActivityResultLauncher: ", e)
                 }
             } else {
+
                 Utils.toast(this, "Canceled...!")
             }
 
@@ -325,18 +325,18 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val requestStoragePermissions =
         registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted ->
-            Log.d(TAG, "requestStoragePermissions: isGranted: $isGranted")
 
             if (isGranted){
+
                 pickImageGallery()
             } else {
+
                 Utils.toast(this, "Storage permissions denied...")
             }
         }
 
 
     private fun pickImageGallery() {
-        Log.d(TAG, "pickImageGallery: ")
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -353,15 +353,18 @@ class EditProfileActivity : AppCompatActivity() {
                 imageUri = data!!.data
 
                 try {
+
                     Glide.with(this)
                         .load(imageUri)
                         .placeholder(R.drawable.ic_person_white)
                         .into(binding.profileIv)
                 } catch (e: Exception) {
+
                     Log.e(TAG, "galleryActivityResultLauncher: ", e)
                 }
 
             } else {
+
                 Utils.toast(this, "Canceled...!")
             }
 
@@ -369,6 +372,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     private companion object{
+
         private const val TAG = "PROFILE_EDIT_TAG"
     }
 }

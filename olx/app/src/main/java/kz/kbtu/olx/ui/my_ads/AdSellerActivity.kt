@@ -42,8 +42,6 @@ class AdSellerActivity : AppCompatActivity() {
 
     private fun loadSellerInfo(){
 
-        Log.d(TAG, "loadSellerInfo: ")
-
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child(sellerUid)
             .addValueEventListener(object : ValueEventListener{
@@ -80,8 +78,6 @@ class AdSellerActivity : AppCompatActivity() {
 
 
     private fun loadAds(){
-
-        Log.d(TAG, "loadAds: ")
 
         val adArrayList: ArrayList<ModelAd> = ArrayList()
 

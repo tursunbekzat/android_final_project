@@ -59,7 +59,6 @@ class ChatActivity : AppCompatActivity() {
         receiptUid = intent.getStringExtra("sellerUid")!!
         myUid = firebaseAuth.currentUser!!.uid
         chatPath = Utils.chatPath(receiptUid, myUid)
-        Log.d(TAG, "onCreate: chatPath: $chatPath")
 
         loadMyInfo()
 
@@ -85,16 +84,12 @@ class ChatActivity : AppCompatActivity() {
 
     private fun loadMessages() {
 
-        Log.d(TAG, "loadMessages: ")
-
         val messagesArray = ArrayList<ModelChat>()
 
         val ref = FirebaseDatabase.getInstance().getReference("Chats")
         ref.child(chatPath)
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-
-                    Log.d(TAG, "loadMessages: onDataChange: ")
 
                     messagesArray.clear()
 
@@ -103,7 +98,6 @@ class ChatActivity : AppCompatActivity() {
                         try {
 
                             val modelChat = ds.getValue(ModelChat::class.java)
-                            Log.d(TAG, "onDataChange: modelChat: $modelChat")
                             messagesArray.add(modelChat!!)
 
                         } catch (e: Exception){
@@ -112,11 +106,10 @@ class ChatActivity : AppCompatActivity() {
                         }
                     }
 
-                    Log.d(TAG, "onDataChange: messagesArray: $messagesArray")
-
                     val adapterChat = AdapterChat(this@ChatActivity, messagesArray)
                     binding.chatRv.adapter = adapterChat
                 }
+
                 override fun onCancelled(error: DatabaseError) {}
             })
     }
@@ -124,16 +117,12 @@ class ChatActivity : AppCompatActivity() {
 
     private fun loadMyInfo(){
 
-        Log.d(TAG, "loadMyInfo: ")
-
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child("${firebaseAuth.uid}")
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     myName = "${snapshot.child("name").value}"
-
-                    Log.d(TAG, "onDataChange: ")
                 }
                 override fun onCancelled(error: DatabaseError) {}
             })
@@ -141,8 +130,6 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun loadReceiptDetails(){
-
-        Log.d(TAG, "loadReceiptDetails: ")
 
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child(receiptUid)
@@ -155,10 +142,6 @@ class ChatActivity : AppCompatActivity() {
                         var imageUrl = "${snapshot.child("profileImageUrl").value}"
 
                         receiptFcmToken = "${snapshot.child("fcmToken").value}"
-
-                        Log.d(TAG, "onDataChange: name: $name")
-                        Log.d(TAG, "onDataChange: imageUrl: $imageUrl")
-                        Log.d(TAG, "onDataChange: receiptFcmToken: $receiptFcmToken")
 
                         binding.toolbarTitleTv.text = name
 
@@ -184,8 +167,6 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun pickImageDialog(){
-
-        Log.d(TAG, "pickImageDialog: ")
 
         val popupMenu = PopupMenu(this, binding.attachFab)
         popupMenu.menu.add(Menu.NONE, 1, 1, "CAMERA")
@@ -226,8 +207,6 @@ class ChatActivity : AppCompatActivity() {
         ActivityResultContracts.RequestMultiplePermissions()
     ){ result ->
 
-        Log.d(TAG, "requestCameraPermissions: ")
-
         var areAllGranted = true
 
         for (isGranted in result.values){
@@ -249,8 +228,6 @@ class ChatActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ){ isGranted ->
 
-        Log.d(TAG, "requestCameraPermissions: isGranted: $isGranted")
-
         if (isGranted){
 
             pickImageGallery()
@@ -262,8 +239,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun pickImageCamera(){
-
-        Log.d(TAG, "pickImageCamera: ")
 
         val contentValues = ContentValues()
         contentValues.put(Media.TITLE, "THE_IMAGE_TITLE")
@@ -283,8 +258,6 @@ class ChatActivity : AppCompatActivity() {
 
         if (result.resultCode == RESULT_OK){
 
-            Log.d(TAG, "cameraActivityResultLauncher: imageUri: $imageUri")
-
             uploadToFirebaseStorage()
         } else {
 
@@ -295,8 +268,6 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun pickImageGallery(){
-
-        Log.d(TAG, "pickImageGallery: ")
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -312,8 +283,6 @@ class ChatActivity : AppCompatActivity() {
 
             val data = result.data
             imageUri = data!!.data
-            Log.d(TAG, "galleryActivityResultLauncher: imageUri: $imageUri")
-
             uploadToFirebaseStorage()
         } else {
 
@@ -323,8 +292,6 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun uploadToFirebaseStorage(){
-
-        Log.d(TAG, "uploadToFirebaseStorage: ")
 
         progressDialog.setMessage("Uploading image...")
         progressDialog.show()
@@ -364,8 +331,6 @@ class ChatActivity : AppCompatActivity() {
 
     private fun validateData(){
 
-        Log.d(TAG, "validateData: ")
-
         val message = binding.messageEt.text.toString().trim()
         val timestamp = Utils.getTimestamp()
 
@@ -380,10 +345,6 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun sendMessage(messageType: String, message: String, timestamp: Long){
-
-        Log.d(TAG, "sentMessage: messageType: $messageType")
-        Log.d(TAG, "sentMessage: message: $message")
-        Log.d(TAG, "sentMessage: timestamp: $timestamp")
 
         progressDialog.setMessage("Sending message...")
         progressDialog.show()
@@ -406,7 +367,6 @@ class ChatActivity : AppCompatActivity() {
             .setValue(hashMap)
             .addOnSuccessListener {
 
-                Log.d(TAG, "sendMessage: Message sent")
                 progressDialog.dismiss()
 
                 binding.messageEt.setText("")
@@ -430,8 +390,6 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun prepareNotification(message: String){
-
-        Log.d(TAG, "prepareNotification: ")
 
         val notificationJo = JSONObject()
         val notificationDataJo = JSONObject()

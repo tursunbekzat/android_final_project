@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -23,18 +22,11 @@ class MyFcmService : FirebaseMessagingService() {
         val senderUid = "${remoteMessage.data["senderUid"]}"
         val notificationType = "${remoteMessage.data["notificationType"]}"
 
-        Log.d(TAG, "onMessageReceived: title: $title")
-        Log.d(TAG, "onMessageReceived: body: $body")
-        Log.d(TAG, "onMessageReceived: senderUid: $senderUid")
-        Log.d(TAG, "onMessageReceived: notificationType: $notificationType")
-
         showChatsNotification(title, body, senderUid)
     }
 
 
     private fun showChatsNotification(title: String, body: String, senderUid: String) {
-
-        Log.d(TAG, "showChatsNotification: ")
 
         val notificationId = Random.nextInt(3000)
 
@@ -62,8 +54,6 @@ class MyFcmService : FirebaseMessagingService() {
 
     private fun setUpNotificationChannel(notificationManager: NotificationManager){
 
-        Log.d(TAG, "setUpNotificationChannel: ")
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
             val notificationChannel = NotificationChannel(
@@ -81,8 +71,6 @@ class MyFcmService : FirebaseMessagingService() {
     }
 
     private companion object{
-
-        private const val TAG = "MY_FCM_SERVICE"
 
         private const val NOTIFICATION_CHANNEL_ID = "OLX_CHANNEL_ID"
     }

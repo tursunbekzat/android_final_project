@@ -74,8 +74,6 @@ class MyAdsAdsFragment : Fragment() {
 
     private fun loadAds() {
 
-        Log.d(TAG, "loadAds: ")
-
         adArrayList = ArrayList()
 
         val ref = FirebaseDatabase.getInstance().getReference("Ads")

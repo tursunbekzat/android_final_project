@@ -41,17 +41,6 @@ class AdDiffUtilCallback(
         val oldProduct: ModelAd = oldList!![oldItemPosition]
         val newProduct: ModelAd = newList!![newItemPosition]
         return (oldProduct.uid == newProduct.uid)
-//                && oldProduct.uid === newProduct.uid
-//                && oldProduct.title === newProduct.title
-//                && oldProduct.description === newProduct.description
-//                && oldProduct.category === newProduct.category
-//                && oldProduct.address === newProduct.address
-//                && oldProduct.price === newProduct.price
-//                && oldProduct.favorite == newProduct.favorite
-//                && oldProduct.status === newProduct.status
-//                && oldProduct.timestamp == newProduct.timestamp
-//                && oldProduct.latitude == newProduct.latitude
-//                && oldProduct.longitude == newProduct.longitude)
     }
 
 

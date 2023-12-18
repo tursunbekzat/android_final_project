@@ -55,8 +55,6 @@ class DeleteAccountActivity : AppCompatActivity() {
 
     private fun deleteAccount() {
 
-        Log.d(TAG, "deleteAccount: ")
-
         progressDialog.setMessage("Deleting Account...")
         progressDialog.show()
 
@@ -66,7 +64,6 @@ class DeleteAccountActivity : AppCompatActivity() {
         firebaseUser.delete()
             .addOnSuccessListener {
 
-                Log.d(TAG, "deleteAccount: Account Deleted...")
                 progressDialog.setMessage("Deleting User Ads")
 
                 val refUserAds = FirebaseDatabase.getInstance().getReference("Ads")
@@ -84,7 +81,6 @@ class DeleteAccountActivity : AppCompatActivity() {
                             refUsers.child(myUid!!).removeValue()
                                 .addOnSuccessListener {
 
-                                    Log.d(TAG, "deleteAccount: User Data Deleted")
                                     progressDialog.dismiss()
                                     startMainActivity()
                                 }
