@@ -35,8 +35,6 @@ class AdapterChat : RecyclerView.Adapter<AdapterChat.ChatViewHolder>{
         var messageTv: TextView = itemView.findViewById(R.id.messageTv)
         var timeTv: TextView = itemView.findViewById(R.id.timeTv)
         var messageIv: ShapeableImageView = itemView.findViewById(R.id.messageIv)
-
-
     }
 
 

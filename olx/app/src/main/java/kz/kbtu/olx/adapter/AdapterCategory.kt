@@ -27,7 +27,6 @@ class AdapterCategory (
 
         var categoryIconIv = binding.categoryIconIv
         var categoryTv = binding.categoryTv
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderModelCategory {
@@ -60,10 +59,4 @@ class AdapterCategory (
             rvListenerCategory.onCategoryClick(modelCategory)
         }
     }
-
-    private companion object {
-
-        private const val TAG = "ADAPTER_CATEGORY"
-    }
-
 }

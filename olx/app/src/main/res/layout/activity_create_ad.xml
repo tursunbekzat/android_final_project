@@ -33,11 +33,11 @@
         <TextView
 
             android:id="@+id/toolbarTitleTv"
+            style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create_new_ad"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:text="@string/create_new_ad" />
 
 
         <ImageButton

@@ -4,9 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.format.DateFormat
+import android.util.Log
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kz.kbtu.olx.adapter.AdapterAd
+import kz.kbtu.olx.adapter.AdapterChats
+import kz.kbtu.olx.adapter.AdapterImagePicked
+import kz.kbtu.olx.models.ModelAd
+import kz.kbtu.olx.models.ModelChats
+import kz.kbtu.olx.models.ModelImagePicked
 import java.util.Arrays
 import java.util.Calendar
 import java.util.Locale
@@ -137,7 +148,7 @@ object Utils {
                 }
                 .addOnFailureListener{ e->
 
-                        toast(context, "Failed to remove from favorites due to ${e.message}")
+                    toast(context, "Failed to remove from favorites due to ${e.message}")
                 }
         }
     }
@@ -169,7 +180,7 @@ object Utils {
             context.startActivity(mapIntent)
         } else {
 
-            Utils.toast(context, "Google Map not installed")
+            toast(context, "Google Map not installed")
         }
     }
 
@@ -180,5 +191,67 @@ object Utils {
         Arrays.sort(arrayUids)
 
         return "${arrayUids[0]}_${arrayUids[1]}"
+    }
+
+
+    fun checkIsFavorite(modelAd: ModelAd, holder: AdapterAd.AdViewHolder, context: Context, firebaseAuth: FirebaseAuth) {
+
+        val ref = FirebaseDatabase.getInstance().getReference("Users")
+        ref.child(firebaseAuth.uid!!).child("Favorites").child(modelAd.id)
+            .addValueEventListener(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val favorite = snapshot.exists()
+                    modelAd.favorite = favorite
+
+                    if (favorite) {
+
+                        holder.favBtn.setImageResource(R.drawable.ic_fav)
+                    } else {
+
+                        holder.favBtn.setImageResource(R.drawable.ic_fav_no)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                    toast(context, "Failed ")
+                }
+            })
+    }
+
+
+    fun loadFirstImage(modelAd: ModelAd, holder: AdapterAd.AdViewHolder, context: Context) {
+
+        val aId = modelAd.id
+
+        val reference = FirebaseDatabase.getInstance().getReference("Ads")
+        reference.child(aId).child("Images").limitToFirst(1)
+            .addValueEventListener(object: ValueEventListener{
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    for (ds in snapshot.children) {
+
+                        val imageUrl = "${ds.child("imageUrl").value}"
+
+                        try {
+
+                            Glide.with(context)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_image_gray)
+                                .into(holder.imageIv)
+
+                        } catch (e: Exception) {
+
+                            Log.e("AD_ADAPTER_TAG", "loadFirstImage: onDataChange: ", e)
+                        }
+                    }
+                }
+
+                override fun onCancelled(e: DatabaseError) {
+
+                }
+            })
     }
 }

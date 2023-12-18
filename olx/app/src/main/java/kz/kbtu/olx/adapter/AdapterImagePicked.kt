@@ -19,7 +19,7 @@ class AdapterImagePicked(
     private val context: Context,
     private val imagesPickedArrayList: ArrayList<ModelImagePicked>,
     private val adId: String
-    ) : Adapter<AdapterImagePicked.HolderImagePicked>() {
+) : Adapter<AdapterImagePicked.HolderImagePicked>() {
 
     private lateinit var binding: RowImagesPickedBinding
 
@@ -91,8 +91,6 @@ class AdapterImagePicked(
     private fun deleteImageFirebase(model: ModelImagePicked, holder: HolderImagePicked, position: Int) {
 
         val imageId = model.id
-        Log.d(TAG, "deleteImageFirebase: adId: $adId")
-        Log.d(TAG, "deleteImageFirebase: imageId: $imageId")
 
         val ref = FirebaseDatabase.getInstance().getReference("Ads")
         ref.child(adId).child("Images").child(imageId)

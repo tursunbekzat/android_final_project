@@ -2,7 +2,6 @@ package kz.kbtu.olx.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kz.kbtu.olx.R
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.RowAdBinding
 import kz.kbtu.olx.models.ModelAd
@@ -32,13 +25,7 @@ class AdapterAd(
     private lateinit var binding: RowAdBinding
 
 
-    private companion object {
-
-        private const val TAG = "AD_ADAPTER_TAG"
-    }
-
-
-//    var adArrayList: ArrayList<ModelAd>
+    //    var adArrayList: ArrayList<ModelAd>
     private var firebaseAuth: FirebaseAuth
     private var filteredList: ArrayList<ModelAd> = adArrayList
     private var filter: FilterAd? = null
@@ -78,38 +65,21 @@ class AdapterAd(
     override fun onBindViewHolder(holder: AdViewHolder, position: Int) {
 
         val modelAd = adArrayList[position]
-        val title = modelAd.title
-        val description = modelAd.description
-        val address = modelAd.address
-        val condition = modelAd.condition
-        val price = modelAd.price
-        val timestamp = modelAd.timestamp
-        val formattedData = Utils.formatTimestampDate(timestamp)
 
-        loadFirstImage(modelAd, holder)
+        Utils.loadFirstImage(modelAd, holder, context)
 
-        if (firebaseAuth.currentUser != null){
+        if (firebaseAuth.currentUser != null) Utils.checkIsFavorite(modelAd, holder, context, firebaseAuth)
 
-            checkIsFavorite(modelAd, holder)
-        }
-
-        holder.titleTv.text = title
-        holder.descriptionTv.text = description
-        holder.condition.text = condition
-        holder.addressTv.text = address
-        holder.priceTv.text = price
-        holder.dateTv.text = formattedData
+        holder.titleTv.text = modelAd.title
+        holder.descriptionTv.text = modelAd.description
+        holder.condition.text = modelAd.condition
+        holder.addressTv.text = modelAd.address
+        holder.priceTv.text = modelAd.price
+        holder.dateTv.text = Utils.formatTimestampDate(modelAd.timestamp)
 
         binding.favBtn.setOnClickListener {
 
-            val favorite = modelAd.favorite
-            if (favorite){
-
-                Utils.removeFromFavorite(context, modelAd.id)
-            } else {
-
-                Utils.addToFavorite(context, modelAd.id)
-            }
+            if (modelAd.favorite) Utils.removeFromFavorite(context, modelAd.id) else Utils.addToFavorite(context, modelAd.id)
         }
 
         holder.itemView.setOnClickListener {
@@ -121,78 +91,10 @@ class AdapterAd(
 
     }
 
-    private fun checkIsFavorite(modelAd: ModelAd, holder: AdapterAd.AdViewHolder) {
-
-        val ref = FirebaseDatabase.getInstance().getReference("Users")
-        ref.child(firebaseAuth.uid!!).child("Favorites").child(modelAd.id)
-            .addValueEventListener(object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    val favorite = snapshot.exists()
-                    modelAd.favorite = favorite
-
-                    if (favorite) {
-
-                        holder.favBtn.setImageResource(R.drawable.ic_fav)
-                    } else {
-
-                        holder.favBtn.setImageResource(R.drawable.ic_fav_no)
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                    Utils.toast(context, "Failed ")
-                }
-            })
-    }
-
-
-    private fun loadFirstImage(modelAd: ModelAd, holder: AdViewHolder) {
-
-        val aId = modelAd.id
-
-        Log.d(TAG, "loadFirstImage: aId: $aId")
-
-        val reference = FirebaseDatabase.getInstance().getReference("Ads")
-        reference.child(aId).child("Images").limitToFirst(1)
-            .addValueEventListener(object: ValueEventListener{
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    for (ds in snapshot.children) {
-
-                        val imageUrl = "${ds.child("imageUrl").value}"
-                        Log.d(TAG, "loadFirstImage: onDataChange: imageUrl: $imageUrl")
-
-                        try {
-
-                            Glide.with(context)
-                                .load(imageUrl)
-                                .placeholder(R.drawable.ic_image_gray)
-                                .into(holder.imageIv)
-
-                            Log.d(TAG, "loadFirstImage: onDataChange: image loaded")
-                        } catch (e: Exception) {
-
-                            Log.e(TAG, "loadFirstImage: onDataChange: ", e)
-                        }
-                    }
-                }
-
-                override fun onCancelled(e: DatabaseError) {
-
-                }
-            })
-    }
-
 
     override fun getFilter(): Filter {
 
-        if (filter == null) {
-
-            filter = FilterAd(this, filteredList)
-        }
+        if (filter == null) filter = FilterAd(this, filteredList)
 
         return filter as FilterAd
     }

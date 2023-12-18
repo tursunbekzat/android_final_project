@@ -85,8 +85,6 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
 
         val chatKey = modelChats.chatKey
 
-        Log.d(TAG, "loadLastMessage: chatKey: $chatKey")
-
         val ref = FirebaseDatabase.getInstance().getReference("Chats")
         ref.child(chatKey).limitToLast(1)
             .addValueEventListener(object : ValueEventListener{
@@ -129,8 +127,6 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
 
     private fun loadRecepitUserInfo(modelChats: ModelChats, holder: AdapterChats.ChatsViewHolder) {
 
-        Log.d(TAG, "loadRecepitUserInfo: ")
-
         val fromUid = modelChats.fromUid
         val toUid = modelChats.toUid
         var receiptUid = ""
@@ -142,10 +138,6 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
 
             receiptUid = fromUid
         }
-
-        Log.d(TAG, "loadRecepitUserInfo: fromUid: $fromUid")
-        Log.d(TAG, "loadRecepitUserInfo: toUid: $toUid")
-        Log.d(TAG, "loadRecepitUserInfo: receiptUid: $receiptUid")
 
         modelChats.receiptUid = receiptUid
 
@@ -170,7 +162,7 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
                             .into(binding.profileIv)
                     } catch (e: Exception) {
 
-                        Log.e(TAG, "onDataChange: ", e)
+                        Log.e("ADAPTER_CHATS_TAG", "onDataChange: ", e)
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {}
@@ -186,17 +178,8 @@ class AdapterChats : Adapter<AdapterChats.ChatsViewHolder>, Filterable{
 
     override fun getFilter(): Filter {
 
-        if (filter == null){
-
-            filter = FilterChats(this, filterList)
-        }
+        if (filter == null) filter = FilterChats(this, filterList)
 
         return filter!!
-    }
-
-
-    companion object {
-
-        private const val TAG = "ADAPTER_CHATS_TAG"
     }
 }
