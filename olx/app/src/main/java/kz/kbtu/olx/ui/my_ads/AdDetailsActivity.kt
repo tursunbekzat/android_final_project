@@ -47,31 +47,29 @@ class AdDetailsActivity : AppCompatActivity() {
         binding = ActivityAdDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbarEditBtn.visibility = View.GONE
-        binding.toolbarDeleteBtn.visibility = View.GONE
+        firebaseAuth = FirebaseAuth.getInstance()
+        adId = intent.getStringExtra("adId").toString()
+
         binding.chatBtn.visibility = View.GONE
         binding.callBtn.visibility = View.GONE
         binding.smsBtn.visibility = View.GONE
-
-        firebaseAuth = FirebaseAuth.getInstance()
-        adId = intent.getStringExtra("adId").toString()
-        Log.d(TAG, "onCreate: adId: $adId")
+        binding.mapBtn.visibility = View.GONE
+        binding.toolbarFavBtn.visibility = View.GONE
 
         if (firebaseAuth.currentUser != null) {
 
             checkIsFavorite()
-        } else {
-
-            binding.chatBtn.visibility = View.GONE
-            binding.callBtn.visibility = View.GONE
-            binding.smsBtn.visibility = View.GONE
-            binding.mapBtn.visibility = View.GONE
-            binding.toolbarFavBtn.visibility = View.GONE
         }
 
         loadAdDetails()
 
         loadImages()
+
+        setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
 
         binding.toolbarBackBtn.setOnClickListener {
 
@@ -139,12 +137,10 @@ class AdDetailsActivity : AppCompatActivity() {
 
             Utils.mapIntent(this, adLatitude, adLonguitude)
         }
-
     }
 
-    private fun editOptionsDialog() {
 
-        Log.d(TAG, "editOptionsDialog: ")
+    private fun editOptionsDialog() {
 
         val popupMenu = PopupMenu(this, binding.toolbarEditBtn)
         popupMenu.menu.add(Menu.NONE, 0, 0, "Edit")
@@ -172,8 +168,6 @@ class AdDetailsActivity : AppCompatActivity() {
 
 
     private fun showMarkAsSoldDialog(){
-
-        Log.d(TAG, "showMarkAsSoldDialog: ")
 
         val alertDialogBuilder = MaterialAlertDialogBuilder(this)
         alertDialogBuilder.setTitle("Mark as sold")
@@ -209,8 +203,6 @@ class AdDetailsActivity : AppCompatActivity() {
 
     private fun loadAdDetails() {
 
-        Log.d(TAG, "loadAdDetails: ")
-
         val ref = FirebaseDatabase.getInstance().getReference("Ads")
         ref.child(adId)
             .addValueEventListener(object : ValueEventListener {
@@ -220,16 +212,8 @@ class AdDetailsActivity : AppCompatActivity() {
 
                         val modelAd = snapshot.getValue(ModelAd::class.java)
                         sellerUid = modelAd!!.uid
-                        val title = modelAd.title
-                        var description = modelAd.description
-                        var address = modelAd.address
-                        var condition = modelAd.condition
-                        var category = modelAd.category
-                        var price = modelAd.price
                         adLatitude = modelAd.latitude
                         adLonguitude = modelAd.longitude
-                        var timestamp = modelAd.timestamp
-                        val formattedData = Utils.formatTimestampDate(timestamp)
 
                         if (firebaseAuth.currentUser != null) {
 
@@ -237,13 +221,7 @@ class AdDetailsActivity : AppCompatActivity() {
 
                                 binding.toolbarEditBtn.visibility = View.VISIBLE
                                 binding.toolbarDeleteBtn.visibility = View.VISIBLE
-
-                                binding.chatBtn.visibility = View.GONE
-                                binding.callBtn.visibility = View.GONE
-                                binding.smsBtn.visibility = View.GONE
-                                binding.recieptProfileLabelTv.visibility = View.GONE
-                                binding.recieptProfileIv.visibility = View.GONE
-                                binding.recieptProfileCv.visibility = View.GONE
+                                binding.toolbarFavBtn.visibility = View.VISIBLE
                             } else {
 
                                 binding.toolbarEditBtn.visibility = View.GONE
@@ -252,18 +230,17 @@ class AdDetailsActivity : AppCompatActivity() {
                                 binding.chatBtn.visibility = View.VISIBLE
                                 binding.callBtn.visibility = View.VISIBLE
                                 binding.smsBtn.visibility = View.VISIBLE
-                                binding.recieptProfileLabelTv.visibility = View.VISIBLE
-                                binding.recieptProfileIv.visibility = View.VISIBLE
-                                binding.recieptProfileCv.visibility = View.VISIBLE
+                                binding.mapBtn.visibility = View.VISIBLE
                             }
                         }
-                        binding.titleTv.text = title
-                        binding.descriptionTv.text = description
-                        binding.priceTv.text = price
-                        binding.categoryTv.text = category
-                        binding.conditionTv.text = condition
-                        binding.addressTv.text = address
-                        binding.dateTv.text = formattedData
+
+                        binding.titleTv.text = modelAd.title
+                        binding.descriptionTv.text = modelAd.description
+                        binding.priceTv.text = modelAd.price
+                        binding.categoryTv.text = modelAd.category
+                        binding.conditionTv.text = modelAd.condition
+                        binding.addressTv.text = modelAd.address
+                        binding.dateTv.text = Utils.formatTimestampDate(modelAd.timestamp)
 
                         loadSellerInfo()
 
@@ -281,8 +258,6 @@ class AdDetailsActivity : AppCompatActivity() {
 
 
     private fun loadSellerInfo(){
-
-        Log.d(TAG, "loadSellerInfo: ")
 
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child(sellerUid)
@@ -320,15 +295,12 @@ class AdDetailsActivity : AppCompatActivity() {
 
     private fun checkIsFavorite() {
 
-        Log.d(TAG, "checkIsFavorite: ")
-
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child(firebaseAuth.uid!!).child("Favorites").child(adId)
             .addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     favorite = snapshot.exists()
-                    Log.d(TAG, "onDataChange: favorite: $favorite")
 
                     if (favorite) {
 
@@ -347,8 +319,6 @@ class AdDetailsActivity : AppCompatActivity() {
 
 
     private fun loadImages() {
-
-        Log.d(TAG, "loadImages: ")
 
         imageSliderArrayList = ArrayList()
 
@@ -382,8 +352,6 @@ class AdDetailsActivity : AppCompatActivity() {
 
 
     private fun deleteAd(){
-
-        Log.d(TAG, "deleteAd: ")
 
         val ref = FirebaseDatabase.getInstance().getReference("Ads")
         ref.child(adId)

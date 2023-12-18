@@ -1,5 +1,6 @@
 package kz.kbtu.olx.auth
 
+
 import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import kz.kbtu.olx.MainActivity
 import kz.kbtu.olx.Utils
 import kz.kbtu.olx.databinding.ActivityRegisterEmailBinding
 
+
 class RegisterEmailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterEmailBinding
@@ -23,6 +25,7 @@ class RegisterEmailActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterEmailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,23 +35,33 @@ class RegisterEmailActivity : AppCompatActivity() {
         progressDialog.setTitle("Please wait...")
         progressDialog.setCanceledOnTouchOutside(false)
 
+        setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
 
         binding.toolbarBackBtn.setOnClickListener{
+
             onBackPressed()
         }
 
         binding.haveAccountTv.setOnClickListener{
+
             onBackPressed()
         }
 
         binding.registerBtn.setOnClickListener{
+
             isValidate()
         }
     }
 
+
     private var email = ""
     private var password = ""
     private var confPassword = ""
+
 
     private fun isValidate(){
         email = binding.emailEt.text.toString().trim()

@@ -56,12 +56,10 @@ class CreateAdActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         isEditMode = intent.getBooleanExtra("isEditMode", false)
-        Log.d(TAG, "onCreate: isEditMode: $isEditMode")
 
         if (isEditMode) {
 
             adIdForEditing = intent.getStringExtra("adId") ?: ""
-            Log.d(TAG, "onCreate: adId: $adIdForEditing")
 
             loadAdDetails()
 
@@ -82,6 +80,12 @@ class CreateAdActivity : AppCompatActivity() {
         imagePickedArrayList = ArrayList()
         loadImages()
 
+       setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
+
         binding.toolbarBackBtn.setOnClickListener {
 
             onBackPressed()
@@ -94,7 +98,6 @@ class CreateAdActivity : AppCompatActivity() {
 
         binding.locationAct.setOnClickListener {
 
-            Log.d(TAG, "onCreate: locationAct pressed")
             val intent = Intent(this, LocationPickerActivity::class.java)
             locationPickerActivityResultLauncherActivity.launch(intent)
         }
@@ -109,7 +112,6 @@ class CreateAdActivity : AppCompatActivity() {
     private val locationPickerActivityResultLauncherActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
-            Log.d(TAG, "locationPickerActivityResultLauncherActivity: ")
             if (result.resultCode == Activity.RESULT_OK) {
 
                 val data = result.data
@@ -119,14 +121,9 @@ class CreateAdActivity : AppCompatActivity() {
                     longitude = data.getDoubleExtra("longitude", 0.0)
                     address = data.getStringExtra("address") ?: ""
 
-                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: latitude: $longitude")
-                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: longitude: $longitude")
-                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: address: $address")
-
                     binding.locationAct.setText(address)
                 } else {
 
-                    Log.d(TAG, "locationPickerActivityResultLauncherActivity: Cancelled...!")
                     Utils.toast(this, "Cancelled...!")
                 }
 
@@ -134,16 +131,12 @@ class CreateAdActivity : AppCompatActivity() {
         }
     private fun loadImages(){
 
-        Log.d(TAG, "loadImages: ")
-
         adapterImagePicked = AdapterImagePicked(this, imagePickedArrayList, adIdForEditing)
         binding.imagesRv.adapter = adapterImagePicked
     }
 
 
     private fun showImagePickOptions(){
-
-        Log.d(TAG, "showImagePickOptions: ")
 
         val popupMenu = PopupMenu(this, binding.toolbarAdBtn)
         popupMenu.menu.add(Menu.NONE, 1, 1, "Camera")
@@ -154,7 +147,6 @@ class CreateAdActivity : AppCompatActivity() {
             val itemId = item.itemId
             if (itemId == 1){
 
-                Log.d(TAG, "imagePickDialog: Camera Clicked, check if camera permission(s) granted or not")
                 if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.TIRAMISU) {
 
                     val cameraPermissions = arrayOf(Manifest.permission.CAMERA)
@@ -165,8 +157,6 @@ class CreateAdActivity : AppCompatActivity() {
                     requestCameraPermission.launch(cameraPermissions)
                 }
             } else if (itemId == 2){
-
-                Log.d(TAG, "imagePickDialog: Gallery Clicked, check if storage permission(s) granted or not")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
@@ -186,8 +176,6 @@ class CreateAdActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted->
 
-            Log.d(TAG, "requestStorePermission: isGranted: $isGranted")
-
             if (isGranted) {
 
                 pickImageGallery()
@@ -201,8 +189,6 @@ class CreateAdActivity : AppCompatActivity() {
     private val requestCameraPermission = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result->
-
-            Log.d(TAG, "requestStorePermission: result: $result")
 
             var areAllGranted = true
 
@@ -222,7 +208,6 @@ class CreateAdActivity : AppCompatActivity() {
 
 
     private fun pickImageCamera() {
-        Log.d(TAG, "pickImageCamera: ")
 
         val contentValues = ContentValues()
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_image_title")
@@ -239,13 +224,7 @@ class CreateAdActivity : AppCompatActivity() {
     private val cameraActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
 
-            Log.d(TAG, "cameraActivityResultLauncher: ")
-
-
-
             if (result.resultCode == Activity.RESULT_OK) {
-
-                Log.d(TAG, "cameraActivityResultLauncher: Image Captured: imageUri: $imageUri")
 
                 val timestamp = "${Utils.getTimestamp()}"
                 val modelImagePicked = ModelImagePicked(timestamp, imageUri, null, false)
@@ -259,7 +238,6 @@ class CreateAdActivity : AppCompatActivity() {
         }
 
     private fun pickImageGallery() {
-        Log.d(TAG, "pickImageGallery: ")
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -301,8 +279,6 @@ class CreateAdActivity : AppCompatActivity() {
 
 
     private fun validateData(){
-
-        Log.d(TAG, "validateData: ")
 
         brand = binding.brandEt.text.toString().trim()
         category = binding.categoryAct.text.toString().trim()
@@ -346,8 +322,6 @@ class CreateAdActivity : AppCompatActivity() {
 
     private fun postAd(){
 
-        Log.d(TAG, "postAd: ")
-
         progressDialog.setMessage("Publishing Ad")
         progressDialog.show()
 
@@ -376,7 +350,6 @@ class CreateAdActivity : AppCompatActivity() {
             .updateChildren(hashMap)
             .addOnSuccessListener {
 
-                Log.d(TAG, "postAd: Publishing...")
                 uploadImagesStore(keyId)
             }
             .addOnFailureListener { e ->
@@ -389,8 +362,6 @@ class CreateAdActivity : AppCompatActivity() {
 
 
     private fun updateAd(){
-
-        Log.d(TAG, "updateAd: ")
 
         progressDialog.setMessage("Updating Ad")
         progressDialog.show()
@@ -411,7 +382,6 @@ class CreateAdActivity : AppCompatActivity() {
             .updateChildren(hashMap)
             .addOnSuccessListener {
 
-                Log.d(TAG, "updateAd: Successfully Updated")
                 progressDialog.dismiss()
                 uploadImagesStore(adIdForEditing)
                 Utils.toast(this, "Successfully Updated")
@@ -443,17 +413,13 @@ class CreateAdActivity : AppCompatActivity() {
                     .addOnProgressListener { snapshot ->
 
                         val progress = 100.0 *snapshot.bytesTransferred / snapshot.totalByteCount
-                        Log.d(TAG, "uploadImagesStore: progress: $progress")
                         val message = "Uploading $imageIndexForProgress of ${imagePickedArrayList.size} images ... Progress ${progress.toInt()}"
-                        Log.d(TAG, "uploadImagesStore: message: $message")
 
                         progressDialog.setMessage(message)
                         progressDialog.show()
 
                     }
                     .addOnSuccessListener { taskSnapshot ->
-
-                        Log.d(TAG, "uploadImagesStore: Uploading image...")
 
                         val uriTask = taskSnapshot.storage.downloadUrl
 
@@ -484,8 +450,6 @@ class CreateAdActivity : AppCompatActivity() {
 
 
     private fun loadAdDetails(){
-
-        Log.d(TAG, "loadAdDetails: ")
 
         val ref = FirebaseDatabase.getInstance().getReference("Ads")
         ref.child(adIdForEditing)
@@ -527,7 +491,6 @@ class CreateAdActivity : AppCompatActivity() {
 
                             try {
 
-                                Log.d(TAG, "onDataChange: loadImages in OnDataChanged")
                                 loadImages()
                             } catch (e: Exception){
                                 Log.e(TAG, "onDataChange: LoadImages Failed due to", e)

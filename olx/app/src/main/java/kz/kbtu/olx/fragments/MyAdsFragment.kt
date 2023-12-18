@@ -49,9 +49,7 @@ class MyAdsFragment : Fragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
 
-                Log.d(TAG, "onTabSelected: tab: ${tab.position}")
                 binding.viewPager.currentItem = tab.position
-
             }
             override fun onTabReselected(p0: TabLayout.Tab?) {
 
@@ -83,11 +81,5 @@ class MyAdsFragment : Fragment() {
 
             return 2
         }
-    }
-
-
-    private companion object {
-
-        private const val TAG = "MY_ADS_FRAGMENT"
     }
 }

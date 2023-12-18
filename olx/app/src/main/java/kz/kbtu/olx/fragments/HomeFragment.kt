@@ -74,14 +74,9 @@ class HomeFragment : Fragment() {
 
         binding.searchEtt.addTextChangedListener (object: TextWatcher {
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                Log.d(TAG, "onTextChanged: Query: $s")
 
                 try {
 
@@ -93,9 +88,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) {
-
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         binding.locationCv.setOnClickListener {
@@ -103,7 +96,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(mContext, LocationPickerActivity::class.java)
             locationPickerActivityResultLauncher.launch(intent)
         }
-
 
     }
 
@@ -125,7 +117,6 @@ class HomeFragment : Fragment() {
                 val selectedCategory = modelCategory.category
                 loadAds(selectedCategory)
             }
-
         })
 
         binding.categoryRv.adapter = adapterCategory
@@ -137,13 +128,9 @@ class HomeFragment : Fragment() {
 
         if (result.resultCode == Activity.RESULT_OK) {
 
-            Log.d(TAG, "locationPickerActivityResultLauncher: RESULT_OK")
-
             val data = result.data
 
             if (data != null) {
-
-                Log.d(TAG, "locationPickerActivityResultLauncher: Location Picked!")
 
                 currentLatitude = data.getDoubleExtra("latitude", 0.0)
                 currentLongitude = data.getDoubleExtra("longitude", 0.0)
@@ -163,12 +150,10 @@ class HomeFragment : Fragment() {
 
             Utils.toast(mContext, "Cancelled!")
         }
-
     }
 
-    private fun loadAds(category: String) {
 
-        Log.d(TAG, "loadAds: category: $category")
+    private fun loadAds(category: String) {
 
         adArrayList = ArrayList()
 
@@ -190,13 +175,9 @@ class HomeFragment : Fragment() {
                             modelAd?.longitude ?: 0.0
                         )
 
-                        Log.d(TAG, "loadAds: onDataChange: distance: $distance")
-
                         if (category == "All") {
 
                             if (distance <= MAX_DISTANCE_TO_LOAD_ADS_KM) {
-
-                                Log.d(TAG, "loadAds: onDataChange: ads added")
 
                                 adArrayList.add(modelAd!!)
                             }
@@ -206,14 +187,12 @@ class HomeFragment : Fragment() {
 
                                 if (distance <= MAX_DISTANCE_TO_LOAD_ADS_KM) {
 
-                                    Log.d(TAG, "loadAds: onDataChange: ads added")
-
                                     adArrayList.add(modelAd)
                                 }
                             }
 
                         }
-                    }catch (e: Exception) {
+                    } catch (e: Exception) {
 
                         Log.e(TAG, "onDataChange: ", e)
                     }
@@ -223,18 +202,12 @@ class HomeFragment : Fragment() {
                 binding.adsRv.adapter = adapterAd
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
     private fun calculateDistanceKm(adLatitude: Double, adLongitude: Double) : Double {
 
-        Log.d(TAG, "calculateDistanceKm: currentLatitude: $currentLatitude")
-        Log.d(TAG, "calculateDistanceKm: currentLongitude: $currentLongitude")
-        Log.d(TAG, "calculateDistanceKm: adLatitude: $adLatitude")
-        Log.d(TAG, "calculateDistanceKm: adLongitude: $adLongitude")
 
         val startPoint = Location(LocationManager.NETWORK_PROVIDER)
         startPoint.latitude = currentLatitude
@@ -255,5 +228,4 @@ class HomeFragment : Fragment() {
         private const val TAG = "HOME_FRAGMENT_TAG"
         private const val MAX_DISTANCE_TO_LOAD_ADS_KM = 10
     }
-
 }

@@ -24,7 +24,10 @@ class LoginOptionsActivity : AppCompatActivity() {
     private lateinit var progressDIalog: ProgressDialog
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityLoginOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,6 +45,11 @@ class LoginOptionsActivity : AppCompatActivity() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
+        setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
 
         binding.closeBtn.setOnClickListener{
             onBackPressed()
@@ -60,40 +68,45 @@ class LoginOptionsActivity : AppCompatActivity() {
         }
     }
 
+
     private fun beginGoogleLogin(){
-        Log.d(TAG, "beginGoogleLogin: ")
+
         val googleSignInIntent = mGoogleSignInClient.signInIntent
         googleSignInARL.launch(googleSignInIntent)
-        Log.d(TAG, "beginGoogleLogin: continue")
     }
+
 
     private val googleSignInARL = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()){ result ->
-            Log.d(TAG, "googleSignInARL: ")
 
-            Log.d(TAG, "googleSignInARL: ${result.resultCode}, ${Activity.RESULT_OK}")
             if (result.resultCode == Activity.RESULT_OK) {
+
                 val data = result.data
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
                 try {
+
                     val account = task.getResult(ApiException::class.java)
-                    Log.d(TAG, "googleSignInARL: Account ID: ${account?.id}")
                     firebaseAuthWithGoogleAccount(account?.idToken)
                 }
                 catch (e: ApiException){
+
                     Log.e(TAG, "googleSignInARL: ", e)
                     Utils.toast(this, "${e.message}")
                 }
             }
             else {
+
                 Utils.toast(this, "Cancelled...!")
             }
         }
 
     private fun firebaseAuthWithGoogleAccount(idToken: String?) {
-        Log.d(TAG, "firebaseAuthWithGoogleAccount: idToken: $idToken")
+
         if (idToken.isNullOrEmpty()) {
+
             Utils.toast(this, "ID Token is null or empty")
+
             return
         }
 
@@ -101,24 +114,23 @@ class LoginOptionsActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential)
             .addOnSuccessListener {authResult->
                 if (authResult.additionalUserInfo!!.isNewUser){
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: New User, Account Created...")
+
                     updateUserInfoDb()
                 }
                 else {
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: Existing User, Logged In...")
+
                     startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
                 }
-                Log.d(TAG, "firebaseAuthWithGoogleAccount: Account")
             }
             .addOnFailureListener { e->
+
                 Log.e(TAG, "firebaseAuthWithGoogleAccount: ", e)
                 Utils.toast(this, "${e.message}")
             }
     }
 
     private fun updateUserInfoDb(){
-        Log.d(TAG, "updateUserInfoDb: ")
 
         progressDIalog.setMessage("Saving User Info...")
         progressDIalog.show()
@@ -145,12 +157,13 @@ class LoginOptionsActivity : AppCompatActivity() {
         reference.child(registeredUserUid!!)
             .setValue(hashMap)
             .addOnSuccessListener {
-                Log.d(TAG, "updateUserInfoDb: User info saved")
+
                 progressDIalog.dismiss()
                 startActivity(Intent(this, MainActivity::class.java))
                 finishAffinity()
             }
             .addOnFailureListener { e ->
+
                 progressDIalog.dismiss()
                 Log.e(TAG, "updateUserInfoDb: ", e)
                 Utils.toast(this, "Failed to save user info due to ${e.message}")
@@ -158,6 +171,7 @@ class LoginOptionsActivity : AppCompatActivity() {
     }
 
     private companion object{
+
         private const val TAG = "LOGIN_OPTIONS_TAG"
     }
 }

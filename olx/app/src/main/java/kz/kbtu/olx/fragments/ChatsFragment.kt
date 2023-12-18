@@ -45,12 +45,12 @@ class ChatsFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAuth = FirebaseAuth.getInstance()
 
         myUid = "${firebaseAuth.uid}"
-        Log.d(TAG, "onViewCreated: myUid: $myUid")
 
         loadChats()
 
@@ -65,8 +65,6 @@ class ChatsFragment : Fragment() {
                 try {
 
                     val query = s.toString()
-
-                    Log.d(TAG, "onTextChanged: Query: $query")
 
                     adapterChats.filter.filter(query)
                 } catch (e: Exception) {
@@ -84,8 +82,6 @@ class ChatsFragment : Fragment() {
 
     private fun loadChats(){
 
-        Log.d(TAG, "loadChats: ")
-
         chatsArrayList = ArrayList()
 
         val ref = FirebaseDatabase.getInstance().getReference("Chats")
@@ -97,19 +93,13 @@ class ChatsFragment : Fragment() {
                 for (ds in snapshot.children){
 
                     val chatKey = "${ds.key}"
-                    Log.d(TAG, "onDataChange: chatKey: $chatKey")
 
                     if (chatKey.contains(myUid)){
-
-                        Log.d(TAG, "onDataChange: Contains, add to list")
 
                         val modelChats = ModelChats()
                         modelChats.chatKey = chatKey
 
                         chatsArrayList.add(modelChats)
-                    } else {
-
-                        Log.d(TAG, "onDataChange: Not contains, skip")
                     }
                 }
 
@@ -125,8 +115,6 @@ class ChatsFragment : Fragment() {
 
     private fun sort(){
 
-        Log.d(TAG, "sort: ")
-
         Handler().postDelayed({
 
             chatsArrayList.sortWith{model1: ModelChats, model2: ModelChats ->
@@ -137,6 +125,7 @@ class ChatsFragment : Fragment() {
             adapterChats.notifyDataSetChanged()
         }, 1000)
     }
+
 
     private companion object{
 

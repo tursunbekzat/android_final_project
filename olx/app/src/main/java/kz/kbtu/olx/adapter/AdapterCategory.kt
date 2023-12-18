@@ -22,12 +22,12 @@ class AdapterCategory (
     private lateinit var binding: RowCategoryBinding
 
 
-
     inner class HolderModelCategory(itemView: View): ViewHolder(itemView) {
 
         var categoryIconIv = binding.categoryIconIv
         var categoryTv = binding.categoryTv
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderModelCategory {
 
@@ -36,10 +36,12 @@ class AdapterCategory (
         return HolderModelCategory(binding.root)
     }
 
+
     override fun getItemCount(): Int {
 
         return categoryArrayList.size
     }
+
 
     override fun onBindViewHolder(holder: HolderModelCategory, position: Int) {
 

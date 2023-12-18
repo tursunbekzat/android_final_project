@@ -19,6 +19,7 @@ class LoginEmailActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityLoginEmailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -29,38 +30,50 @@ class LoginEmailActivity : AppCompatActivity() {
         progressDialog.setTitle("Please wait...")
         progressDialog.setCanceledOnTouchOutside(false)
 
+        setOnClickListeners()
+    }
+
+
+    private fun setOnClickListeners(){
+
         binding.toolbarBackBtn.setOnClickListener{
+
             onBackPressed()
         }
 
         binding.noAccountTv.setOnClickListener{
+
             startActivity(Intent(this, RegisterEmailActivity::class.java))
         }
 
         binding.forgotPasswordTv.setOnClickListener {
+
             startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
 
         binding.loginBtn.setOnClickListener{
+
             validateData()
         }
     }
 
+
     private var email = ""
     private var password = ""
 
+
     private fun validateData(){
+
         email = binding.emailEt.text.toString().trim()
         password = binding.passwordEt.text.toString().trim()
 
-        Log.d(TAG, "validateData: email: $email")
-        Log.d(TAG, "validateData: password: $password")
-
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+
             binding.emailEt.error = "Invalid Email Format"
             binding.emailEt.requestFocus()
         }
         else if (password.isEmpty()) {
+
             binding.passwordEt.error = "Enter Password"
         }
         else {
@@ -72,25 +85,21 @@ class LoginEmailActivity : AppCompatActivity() {
 
     private fun loginUser(){
 
-        Log.d(TAG, "loginUser: ")
         progressDialog.setMessage("Logging In")
         progressDialog.show()
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                Log.d(TAG, "loginUser: Logged In...")
+
                 startActivity(Intent(this, MainActivity::class.java))
             }
             .addOnFailureListener { e->
-                Log.e(TAG, "loginUser: ", e)
+
+                Log.e("LOGIN_TAG", "loginUser: ", e)
+
                 progressDialog.dismiss()
 
                 Utils.toast(this, "Unable to login due to ${e.message}")
             }
-    }
-
-
-    private companion object{
-        private const val TAG = "LOGIN_TAG"
     }
 }

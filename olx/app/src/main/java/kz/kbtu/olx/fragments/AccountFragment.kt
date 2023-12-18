@@ -93,7 +93,7 @@ class AccountFragment : Fragment() {
 
 
     private fun loadMyInfo() {
-        Log.d(TAG, "loadMyInfo: ")
+
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child("${firebaseAuth.uid}")
             .addValueEventListener(object: ValueEventListener{
@@ -158,15 +158,12 @@ class AccountFragment : Fragment() {
 
     private fun verifyAccount() {
 
-        Log.d(TAG, "verifyAccount: ")
-
         progressDialog.setMessage("Sending verification instructions to your email...")
         progressDialog.show()
 
         firebaseAuth.currentUser!!.sendEmailVerification()
             .addOnSuccessListener {
 
-                Log.d(TAG, "verifyAccount: Successfully sent.")
                 progressDialog.dismiss()
                 Utils.toast(mContext, "Verification instructions sent to your email...")
             }
