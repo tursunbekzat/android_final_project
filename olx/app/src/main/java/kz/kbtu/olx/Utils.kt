@@ -12,14 +12,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kz.kbtu.olx.adapter.AdAdapter
-import kz.kbtu.olx.models.Ad
+import kz.kbtu.olx.presentation.adapters.AdAdapter
+import kz.kbtu.olx.domain.models.Ad
 import java.util.Arrays
 import java.util.Calendar
 import java.util.Locale
 
 object Utils {
 
+    const val baseUrl = "https://api.openweathermap.org/data/2.5/"
     const val ADD_STATUS_AVAILABLE = "AVAILABLE"
     const val ADD_STATUS_SOLD = "SOLD"
     const val MESSAGE_TYPE_TEXT = "TEXT"

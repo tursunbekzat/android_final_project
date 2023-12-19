@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.my_ads.SellerInfoActivity">
+    tools:context=".presentation.activities.ui.my_ads.SellerInfoActivity">
 
     <RelativeLayout
         android:id="@+id/toolbarRL"

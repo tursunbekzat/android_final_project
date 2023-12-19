@@ -12,13 +12,13 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
-import kz.kbtu.olx.auth.LoginOptionsActivity
+import kz.kbtu.olx.presentation.activities.auth.LoginOptionsActivity
 import kz.kbtu.olx.databinding.ActivityMainBinding
-import kz.kbtu.olx.fragments.AccountFragment
-import kz.kbtu.olx.fragments.ChatsFragment
-import kz.kbtu.olx.fragments.HomeFragment
-import kz.kbtu.olx.fragments.MyAdsFragment
-import kz.kbtu.olx.ui.sell.CreateAdActivity
+import kz.kbtu.olx.presentation.fragments.AccountFragment
+import kz.kbtu.olx.presentation.fragments.ChatsFragment
+import kz.kbtu.olx.presentation.fragments.HomeFragment
+import kz.kbtu.olx.presentation.fragments.MyAdsFragment
+import kz.kbtu.olx.presentation.activities.ui.sell.CreateAdActivity
 
 class MainActivity : AppCompatActivity() {
 

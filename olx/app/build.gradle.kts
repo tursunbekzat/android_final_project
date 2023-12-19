@@ -68,4 +68,11 @@ dependencies {
 
     implementation (libs.places)
 
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //picasso
+    implementation(libs.picasso)
 }

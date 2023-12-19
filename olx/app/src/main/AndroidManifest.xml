@@ -34,67 +34,67 @@
 
         <activity
 
-            android:name=".ui.chats.ChatActivity"
+            android:name=".presentation.activities.ui.chats.ChatActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.my_ads.SellerInfoActivity"
+            android:name=".presentation.activities.ui.my_ads.SellerInfoActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.my_ads.AdDetailsActivity"
+            android:name=".presentation.activities.ui.my_ads.AdDetailsActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.sell.LocationPickerActivity"
+            android:name=".presentation.activities.ui.sell.LocationPickerActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.sell.CreateAdActivity"
+            android:name=".presentation.activities.ui.sell.CreateAdActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.account.DeleteAccountActivity"
+            android:name=".presentation.activities.ui.account.DeleteAccountActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.account.ChangePasswordActivity"
+            android:name=".presentation.activities.ui.account.ChangePasswordActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.account.ForgotPasswordActivity"
+            android:name=".presentation.activities.ui.account.ForgotPasswordActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".ui.account.EditProfileActivity"
+            android:name=".presentation.activities.ui.account.EditProfileActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".auth.LoginPhoneActivity"
+            android:name=".presentation.activities.auth.LoginPhoneActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".auth.RegisterEmailActivity"
+            android:name=".presentation.activities.auth.RegisterEmailActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".auth.LoginEmailActivity"
+            android:name=".presentation.activities.auth.LoginEmailActivity"
             android:exported="false" />
 
         <activity
 
-            android:name=".auth.LoginOptionsActivity"
+            android:name=".presentation.activities.auth.LoginOptionsActivity"
             android:exported="false" />
 
         <activity
@@ -121,7 +121,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
 
-        <service android:name=".ui.chats.MyFcmService"
+        <service android:name=".presentation.activities.ui.chats.MyFcmService"
             android:exported="false">
 
             <intent-filter>

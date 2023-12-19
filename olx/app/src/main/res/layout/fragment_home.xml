@@ -5,7 +5,29 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".presentation.fragments.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/weatherIv"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:src="@drawable/ic_weather"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/weatherTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="8sp"
+            android:layout_toEndOf="@+id/weatherIv"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/locationCv"
@@ -14,6 +36,7 @@
         app:cardCornerRadius="5dp"
         app:cardUseCompatPadding="true"
         app:contentPadding="10dp">
+
 
         <TextView
             android:id="@+id/locationTv"
@@ -24,8 +47,8 @@
             android:drawablePadding="10dp"
             android:text="@string/choose_location"
             style="@style/TextAppearance.MaterialComponents.Body1" />
-
     </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/searchCv"
